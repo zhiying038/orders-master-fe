@@ -1,0 +1,100 @@
+# =============
+# ITEM
+# =============
+fragment ItemInfo on Item {
+  code
+  name
+  price
+  currency
+}
+
+query getItemByCode($code: String!) {
+  getItemByCode(code: $code) {
+    ...ItemInfo
+  }
+}
+
+query getItems {
+  getItems {
+    ...ItemInfo
+  }
+}
+
+mutation createItem($input: CreateItemInput!) {
+  createItem(input: $input) {
+    ...ItemInfo
+  }
+}
+
+mutation updateItem($input: UpdateItemInput!) {
+  updateItem(input: $input) {
+    ...ItemInfo
+  }
+}
+
+# =============
+# ORDER
+# =============
+fragment OrderInfo on Order {
+  id
+  totalPrice
+  createdAt
+  orderDetails {
+    ...OrderDetailInfo
+  }
+}
+
+fragment PaginatedOrderInfo on Orders {
+  items {
+    ...OrderInfo
+  }
+  total
+  hasMore
+  page
+  pages
+}
+
+query getOrders($filter: FilterOrderInput) {
+  getOrders(filter: $filter) {
+    ...OrderInfo
+  }
+}
+
+query getPaginatedOrders(
+  $options: CommonFilterOptionInput!
+  $filter: FilterOrderInput
+) {
+  getPaginatedOrders(options: $options, filter: $filter) {
+    ...PaginatedOrderInfo
+  }
+}
+
+query getOrderById($id: Int!) {
+  getOrderById(id: $id) {
+    ...OrderInfo
+  }
+}
+
+query calculateTotalPrice($input: [CreateOrderDetailInput!]!) {
+  calculateTotalPrice(input: $input) {
+    currency
+    price
+  }
+}
+
+mutation createOrder($input: CreateOrderInput!) {
+  createOrder(input: $input) {
+    ...OrderInfo
+  }
+}
+
+# =============
+# ORDER DETAILS
+# =============
+fragment OrderDetailInfo on OrderDetail {
+  id
+  quantity
+  item {
+    ...ItemInfo
+  }
+}
