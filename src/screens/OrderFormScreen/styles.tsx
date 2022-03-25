@@ -1,12 +1,6 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-  width: 100%;
-
-  .title {
-    text-align: center;
-  }
-
   .menu-item {
     display: flex;
     align-items: center;
