@@ -6,8 +6,8 @@ const OrderFooter: React.FC<Props> = (props) => {
 
   return (
     <Wrapper>
-      <p>Total Amount:</p>
-      <p>
+      <p className="label">Total Amount:</p>
+      <p className="value">
         {currency} {parseFloat(amount.toString()).toFixed(2)}
       </p>
     </Wrapper>

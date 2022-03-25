@@ -6,6 +6,7 @@ import get from "lodash/get";
 import map from "lodash/map";
 import { useState, useEffect } from "react";
 import DefaultItem from "../../assets/default-item.svg";
+import Button from "../../components/Button";
 import Divider from "../../components/Divider";
 import OrderFooter from "../../components/OrderFooter";
 import PageTitle from "../../components/PageTitle";
@@ -115,6 +116,8 @@ const OrderFormScreen = () => {
       <Divider className="divider" />
 
       <OrderFooter amount={price?.price ?? 0} currency={price?.currency} />
+
+      <Button text="Submit" />
     </Wrapper>
   );
 };
