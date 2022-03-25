@@ -14,6 +14,7 @@ import {
   ItemInfoFragment,
   useCalculateTotalPriceLazyQuery,
   useGetItemsQuery,
+  useCreateOrderMutation,
 } from "../../graphql";
 import { CartProps } from "./props";
 import { Wrapper } from "./styles";
@@ -22,6 +23,15 @@ const OrderFormScreen = () => {
   const { data } = useGetItemsQuery();
   const [calculateTotal, { data: priceData }] =
     useCalculateTotalPriceLazyQuery();
+
+  const [createOrder] = useCreateOrderMutation({
+    onCompleted: () => {
+      alert("Successfully created order");
+    },
+    onError: () => {
+      alert("Failed to create order");
+    },
+  });
 
   const [cart, setCart] = useState<CartProps[]>([]);
 
@@ -73,6 +83,14 @@ const OrderFormScreen = () => {
     }
   };
 
+  const handleSubmit = () => {
+    createOrder({
+      variables: {
+        input: cart,
+      },
+    });
+  };
+
   return (
     <Wrapper>
       <PageTitle title="Create Order" subtitle="Place an order" />
@@ -117,7 +135,11 @@ const OrderFormScreen = () => {
 
       <OrderFooter amount={price?.price ?? 0} currency={price?.currency} />
 
-      <Button text="Submit" />
+      <Button
+        text="Submit"
+        onClick={handleSubmit}
+        disabled={price?.price === 0}
+      />
     </Wrapper>
   );
 };

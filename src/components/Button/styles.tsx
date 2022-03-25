@@ -12,4 +12,8 @@ export const Wrapper = styled.button`
     font-size: 16px;
     margin: 0;
   }
+
+  &.is-disabled {
+    background-color: #ccc !important;
+  }
 `;

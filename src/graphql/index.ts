@@ -37,11 +37,6 @@ export type CreateOrderDetailInput = {
   quantity: Scalars['Int'];
 };
 
-export type CreateOrderInput = {
-  orderDetails: Array<CreateOrderDetailInput>;
-  totalPrice?: InputMaybe<Scalars['Float']>;
-};
-
 export type FilterOrderInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   id?: InputMaybe<Scalars['Int']>;
@@ -70,7 +65,7 @@ export type MutationCreateItemArgs = {
 
 
 export type MutationCreateOrderArgs = {
-  input: CreateOrderInput;
+  input: Array<CreateOrderDetailInput>;
 };
 
 
@@ -224,7 +219,7 @@ export type CalculateTotalPriceQueryVariables = Exact<{
 export type CalculateTotalPriceQuery = { __typename?: 'Query', calculateTotalPrice: { __typename?: 'Price', currency: string, price: number } };
 
 export type CreateOrderMutationVariables = Exact<{
-  input: CreateOrderInput;
+  input: Array<CreateOrderDetailInput> | CreateOrderDetailInput;
 }>;
 
 
@@ -548,7 +543,7 @@ export type CalculateTotalPriceQueryHookResult = ReturnType<typeof useCalculateT
 export type CalculateTotalPriceLazyQueryHookResult = ReturnType<typeof useCalculateTotalPriceLazyQuery>;
 export type CalculateTotalPriceQueryResult = Apollo.QueryResult<CalculateTotalPriceQuery, CalculateTotalPriceQueryVariables>;
 export const CreateOrderDocument = gql`
-    mutation createOrder($input: CreateOrderInput!) {
+    mutation createOrder($input: [CreateOrderDetailInput!]!) {
   createOrder(input: $input) {
     ...OrderInfo
   }

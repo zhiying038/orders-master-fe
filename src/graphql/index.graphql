@@ -82,7 +82,7 @@ query calculateTotalPrice($input: [CreateOrderDetailInput!]!) {
   }
 }
 
-mutation createOrder($input: CreateOrderInput!) {
+mutation createOrder($input: [CreateOrderDetailInput!]!) {
   createOrder(input: $input) {
     ...OrderInfo
   }
