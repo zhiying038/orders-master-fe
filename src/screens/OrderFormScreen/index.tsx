@@ -4,18 +4,36 @@ import find from "lodash/find";
 import findIndex from "lodash/findIndex";
 import get from "lodash/get";
 import map from "lodash/map";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DefaultItem from "../../assets/default-item.svg";
-import { ItemInfoFragment, useGetItemsQuery } from "../../graphql";
+import Divider from "../../components/Divider";
+import OrderFooter from "../../components/OrderFooter";
+import PageTitle from "../../components/PageTitle";
+import {
+  ItemInfoFragment,
+  useCalculateTotalPriceLazyQuery,
+  useGetItemsQuery,
+} from "../../graphql";
 import { CartProps } from "./props";
 import { Wrapper } from "./styles";
-import Divider from "../../components/Divider";
-import PageTitle from "../../components/PageTitle";
 
 const OrderFormScreen = () => {
   const { data } = useGetItemsQuery();
+  const [calculateTotal, { data: priceData }] =
+    useCalculateTotalPriceLazyQuery();
 
   const [cart, setCart] = useState<CartProps[]>([]);
+
+  useEffect(() => {
+    if (cart.length === 0) return;
+    calculateTotal({
+      variables: {
+        input: cart,
+      },
+    });
+  }, [cart]);
+
+  const price = priceData?.calculateTotalPrice;
 
   const findItemFromCart = (itemCode: string) => {
     const foundIndex = findIndex(cart, ["itemCode", itemCode]);
@@ -94,7 +112,9 @@ const OrderFormScreen = () => {
         );
       })}
 
-      <Divider />
+      <Divider className="divider" />
+
+      <OrderFooter amount={price?.price ?? 0} currency={price?.currency} />
     </Wrapper>
   );
 };

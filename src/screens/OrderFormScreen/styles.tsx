@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
+  .divider {
+    margin-bottom: 0;
+  }
+
   .menu-item {
     display: flex;
     align-items: center;
