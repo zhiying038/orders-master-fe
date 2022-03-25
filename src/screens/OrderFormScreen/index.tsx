@@ -9,6 +9,7 @@ import DefaultItem from "../../assets/default-item.svg";
 import { ItemInfoFragment, useGetItemsQuery } from "../../graphql";
 import { CartProps } from "./props";
 import { Wrapper } from "./styles";
+import Divider from "../../components/Divider";
 import PageTitle from "../../components/PageTitle";
 
 const OrderFormScreen = () => {
@@ -92,6 +93,8 @@ const OrderFormScreen = () => {
           </div>
         );
       })}
+
+      <Divider />
     </Wrapper>
   );
 };
