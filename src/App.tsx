@@ -1,12 +1,18 @@
 import { ApolloProvider } from "@apollo/client";
-import { client } from "./config/apollo.config";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
+import { client } from "./config/apollo.config";
+import OrderForm from "./pages/OrderForm";
 
 function App() {
   return (
     <ApolloProvider client={client}>
       <Layout>
-        <h3>Hello World</h3>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<OrderForm />} />
+          </Routes>
+        </BrowserRouter>>
       </Layout>
     </ApolloProvider>
   );
