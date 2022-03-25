@@ -101,7 +101,7 @@ const OrderFormScreen = () => {
 
         return (
           <div className="menu-item" key={index}>
-            <img className="item-image" src={DefaultItem} />
+            <img className="item-image" src={DefaultItem} alt={item?.name} />
 
             <div className="item-description">
               <p className="item-name">{item?.name}</p>
