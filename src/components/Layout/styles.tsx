@@ -3,15 +3,12 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
   .layout-content {
     min-height: 100vh;
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
     overflow-x: hidden;
   }
 
   .flex-vertical-center {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
 
     &.left {
@@ -21,5 +18,11 @@ export const Wrapper = styled.div`
     &.right {
       align-items: flex-end;
     }
+  }
+
+  @media only screen and (min-width: 770px) {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 414px;
   }
 `;
