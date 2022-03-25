@@ -40,7 +40,7 @@ export const Wrapper = styled.div`
 
         .icon {
           cursor: pointer;
-          color: #808080;
+          color: #ffe400;
         }
       }
     }
