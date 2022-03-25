@@ -12,7 +12,7 @@ function App() {
           <Routes>
             <Route path="/" element={<OrderForm />} />
           </Routes>
-        </BrowserRouter>>
+        </BrowserRouter>
       </Layout>
     </ApolloProvider>
   );
