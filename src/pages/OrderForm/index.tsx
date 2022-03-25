@@ -9,6 +9,7 @@ import DefaultItem from "../../assets/default-item.svg";
 import { ItemInfoFragment, useGetItemsQuery } from "../../graphql";
 import { CartProps } from "./props";
 import { Wrapper } from "./styles";
+import PageTitle from "../../components/PageTitle";
 
 const OrderForm = () => {
   const { data } = useGetItemsQuery();
@@ -54,7 +55,7 @@ const OrderForm = () => {
 
   return (
     <Wrapper>
-      <h2 className="title">Create Order</h2>
+      <PageTitle title="Create Order" subtitle="Place an order" />
 
       {map(data?.getItems, (item, index) => {
         const foundItem = find(cart, { itemCode: item.code });
