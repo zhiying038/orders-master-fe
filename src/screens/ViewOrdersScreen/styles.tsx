@@ -28,4 +28,12 @@ export const Wrapper = styled.div`
     text-align: center;
     background-color: #ffe400;
   }
+
+  .pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 1em;
+    gap: 5px;
+  }
 `;

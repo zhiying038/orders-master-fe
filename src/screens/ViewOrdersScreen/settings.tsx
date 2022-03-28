@@ -9,7 +9,7 @@ export const getColumns = () => [
     },
   },
   {
-    Header: "Total Amount",
+    Header: "Amount",
     accessor: (data) => {
       const amount = get(data, "totalPrice", 0);
       return (

@@ -27,6 +27,7 @@ const OrderFormScreen = () => {
   const [createOrder] = useCreateOrderMutation({
     onCompleted: () => {
       alert("Successfully created order");
+      setCart([]);
     },
     onError: () => {
       alert("Failed to create order");
@@ -135,11 +136,9 @@ const OrderFormScreen = () => {
 
       <OrderFooter amount={price?.price ?? 0} currency={price?.currency} />
 
-      <Button
-        text="Submit"
-        onClick={handleSubmit}
-        disabled={price?.price === 0}
-      />
+      <Button onClick={handleSubmit} disabled={price?.price === 0}>
+        Submit
+      </Button>
     </Wrapper>
   );
 };

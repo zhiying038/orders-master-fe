@@ -3,7 +3,7 @@ import { Props } from "./props";
 import { Wrapper } from "./styles";
 
 const Button: React.FC<Props> = (props) => {
-  const { text, className, onClick, disabled } = props;
+  const { className, onClick, disabled, children } = props;
 
   return (
     <Wrapper
@@ -11,7 +11,7 @@ const Button: React.FC<Props> = (props) => {
       onClick={onClick}
       disabled={disabled}
     >
-      <p className="btn-text">{text}</p>
+      {children}
     </Wrapper>
   );
 };
