@@ -29,6 +29,7 @@ const ViewOrdersScreen = () => {
         limit: currentSize,
       },
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, currentSize]);
 
   const handleFilter = (inFilter) => {

@@ -43,6 +43,7 @@ const OrderFormScreen = () => {
         input: cart,
       },
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cart]);
 
   const price = priceData?.calculateTotalPrice;
