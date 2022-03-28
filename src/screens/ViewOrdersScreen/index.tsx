@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
+import Select from "react-select";
 import { useTable } from "react-table";
 import PageTitle from "../../components/PageTitle";
 import Pagination from "../../components/Pagination";
@@ -8,7 +9,7 @@ import { Wrapper } from "./styles";
 
 const ViewOrdersScreen = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [currentSize, setCurrentSize] = useState<number>(15);
+  const [currentSize, setCurrentSize] = useState<number>(10);
 
   const { data, refetch } = useGetPaginatedOrdersQuery({
     variables: {
@@ -28,6 +29,12 @@ const ViewOrdersScreen = () => {
     });
   }, [currentPage, currentSize]);
 
+  const sizeOptions = [
+    { value: 10, label: "Show 10" },
+    { value: 25, label: "Show 25" },
+    { value: 50, label: "Show 50" },
+  ];
+
   const columns = useMemo(() => getColumns(), []);
   const orders = data?.getPaginatedOrders;
   const pages = orders?.pages ?? 1;
@@ -41,6 +48,15 @@ const ViewOrdersScreen = () => {
   return (
     <Wrapper>
       <PageTitle title="All Orders" />
+
+      <div style={{ marginTop: "1em" }}>
+        <Select
+          options={sizeOptions}
+          classNamePrefix="react-select"
+          value={{ label: `Show ${currentSize}`, value: currentSize }}
+          onChange={(e) => setCurrentSize(e?.value ?? 10)}
+        />
+      </div>
 
       <table {...getTableProps()}>
         <thead>

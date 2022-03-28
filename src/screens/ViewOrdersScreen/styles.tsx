@@ -1,6 +1,14 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
+  .react-select__control {
+    width: 50%;
+  }
+
+  .react-select__menu {
+    width: 50%;
+  }
+
   table {
     width: 100%;
     margin-top: 1em;
@@ -27,13 +35,5 @@ export const Wrapper = styled.div`
     padding-bottom: 12px;
     text-align: center;
     background-color: #ffe400;
-  }
-
-  .pagination {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-top: 1em;
-    gap: 5px;
   }
 `;

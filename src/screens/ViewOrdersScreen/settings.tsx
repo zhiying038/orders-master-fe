@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import get from "lodash/get";
 
 export const getColumns = () => [
@@ -6,6 +7,17 @@ export const getColumns = () => [
     accessor: (data) => {
       const id = get(data, "id");
       return <p style={{ textAlign: "center", margin: 0 }}>{id}</p>;
+    },
+  },
+  {
+    Header: "Placed On",
+    accessor: (data) => {
+      const date = get(data, "createdAt");
+      return (
+        <p style={{ textAlign: "center", margin: 0 }}>
+          {dayjs(date).format("DD MMM YYYY")}
+        </p>
+      );
     },
   },
   {
