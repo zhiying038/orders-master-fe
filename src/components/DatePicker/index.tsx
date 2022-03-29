@@ -14,6 +14,7 @@ const CustomDatepicker: React.FC<Props> = (props) => {
         dateFormat="dd-MM-yyyy"
         maxDate={dayjs().add(10, "day").toDate()}
         onChange={(date) => handleSelect(date ?? new Date())}
+        className="border-2 p-2"
       />
     </Wrapper>
   );
