@@ -104,45 +104,47 @@ const OrderFormScreen = () => {
 
   return (
     <Wrapper>
-      <PageTitle title="Create Order" subtitle="Place an order" />
+      <PageTitle title="Create Order" />
 
-      {map(data?.getItems, (item, index) => {
-        const foundItem = find(cart, { itemCode: item.code });
-        const quantity = foundItem?.quantity ?? 0;
+      <div className="mt-4">
+        {map(data?.getItems, (item, index) => {
+          const foundItem = find(cart, { itemCode: item.code });
+          const quantity = foundItem?.quantity ?? 0;
 
-        return (
-          <div className="menu-item" key={index}>
-            <img className="item-image" src={DefaultItem} alt={item?.name} />
+          return (
+            <div className="flex flex-row items-center" key={index}>
+              <img className="item-image" src={DefaultItem} alt={item?.name} />
 
-            <div className="item-description">
-              <p className="item-name">{item?.name}</p>
+              <div className="item-description flex-grow p-1">
+                <p className="font-bold text-md">{item?.name}</p>
 
-              <div className="item-price">
-                <p>
-                  {item?.currency}{" "}
-                  {parseFloat(item?.price?.toString()).toFixed(2)}
-                </p>
+                <div className="flex flex-row items-center">
+                  <p>
+                    {item?.currency}{" "}
+                    {parseFloat(item?.price?.toString()).toFixed(2)}
+                  </p>
 
-                <div className="quantity">
-                  <FontAwesomeIcon
-                    icon={faCircleMinus}
-                    className="icon"
-                    onClick={() => handleDecrement(item)}
-                  />
-                  <span className="value">{quantity}</span>
-                  <FontAwesomeIcon
-                    icon={faCirclePlus}
-                    className="icon"
-                    onClick={() => handleIncrement(item)}
-                  />
+                  <div className="flex-grow text-right">
+                    <FontAwesomeIcon
+                      icon={faCircleMinus}
+                      className="text-primary cursor-pointer"
+                      onClick={() => handleDecrement(item)}
+                    />
+                    <span className="px-1">{quantity}</span>
+                    <FontAwesomeIcon
+                      icon={faCirclePlus}
+                      className="text-primary cursor-pointer"
+                      onClick={() => handleIncrement(item)}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
 
-      <Divider className="divider" />
+      <Divider />
 
       <OrderFooter
         content={[
