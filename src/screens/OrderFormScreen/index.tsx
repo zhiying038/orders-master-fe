@@ -21,7 +21,7 @@ const OrderFormScreen = () => {
   const navigate = useNavigate();
 
   // ===== STATES & HOOKS
-  const { cartItems, deleteCart } = useCart();
+  const { cartItems, deleteCart, itemQuantity } = useCart();
   const { data: nextRefData } = useGetNextReferenceNumberQuery();
   const [calculateTotal, { data: priceData }] =
     useCalculateTotalPriceLazyQuery();
@@ -119,7 +119,11 @@ const OrderFormScreen = () => {
         <OrderInfo
           content={[
             {
-              label: "Total Amount",
+              label: "Number of Items:",
+              value: String(itemQuantity) ?? "0",
+            },
+            {
+              label: "Total Amount:",
               value: `${price?.currency ?? "MYR"} ${parseFloat(
                 toString(price?.price ?? "0")
               ).toFixed(2)}`,

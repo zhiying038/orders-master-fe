@@ -1,4 +1,3 @@
-import find from "lodash/find";
 import map from "lodash/map";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -13,16 +12,11 @@ import { useCart } from "../../hooks/useCart";
 const MenuScreen = () => {
   const navigate = useNavigate();
 
-  const { cartItems } = useCart();
+  const { findItemFromCart } = useCart();
   const { data, refetch } = useGetItemsQuery();
 
   const [showItem, setShowItem] = useState<boolean>(false);
   const [itemSelected, setItemSelected] = useState<any>();
-
-  const foundItemInCart = (code: string) => {
-    const item = find(cartItems, (e) => e.code === code);
-    return item;
-  };
 
   const handleFilterItem = (value: string) => {
     refetch({
@@ -36,14 +30,14 @@ const MenuScreen = () => {
 
       <div className="mt-4">
         {map(data?.getItems, (item, index) => {
-          const foundItem = foundItemInCart(item?.code);
+          const foundItem = findItemFromCart(item?.code);
           const foundClass = "border-2 border-primary rounded-lg";
 
           const firstImage = item?.images?.[0];
 
           return (
             <div
-              className={`flex flex-row items-center p-2 ${
+              className={`flex flex-row items-center p-2 mb-4 ${
                 foundItem && foundClass
               }`}
               key={index}
