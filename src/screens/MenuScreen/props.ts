@@ -1,5 +1,5 @@
-export type CartProps = {
-  itemCode: string;
+import { ItemInfoFragment } from "../../graphql";
+
+export type CartProps = ItemInfoFragment & {
   quantity: number;
-  unitPrice: number;
 };

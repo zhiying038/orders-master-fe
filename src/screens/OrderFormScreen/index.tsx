@@ -1,22 +1,26 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import map from "lodash/map";
+import toString from "lodash/toString";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
 import Button from "../../components/Button";
 import CustomDatepicker from "../../components/DatePicker";
-import Divider from "../../components/Divider";
-import PageTitle from "../../components/PageTitle";
+import Modal from "../../components/Modal";
+import OrderInfo from "../../components/OrderInfo";
+import OrderItem from "../../components/OrderItem";
 import {
   useCalculateTotalPriceLazyQuery,
   useCreateOrderMutation,
   useGetNextReferenceNumberQuery,
 } from "../../graphql";
-import { CartProps } from "./props";
+import { useCart } from "../../hooks/useCart";
+import { formatToPayload } from "./helpers";
 
 const OrderFormScreen = () => {
   const navigate = useNavigate();
 
+  const { cartItems } = useCart();
   const { data: nextRefData } = useGetNextReferenceNumberQuery();
   const [calculateTotal, { data: priceData }] =
     useCalculateTotalPriceLazyQuery();
@@ -24,27 +28,24 @@ const OrderFormScreen = () => {
   const [createOrder] = useCreateOrderMutation({
     onCompleted: () => {
       alert("Successfully created order");
-      setCart([]);
     },
     onError: () => {
       alert("Failed to create order");
     },
   });
 
-  const [cart, setCart] = useState<CartProps[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [showItem, setShowItem] = useState<boolean>(false);
+  const [itemSelected, setItemSelected] = useState();
 
   useEffect(() => {
-    if (cart.length === 0) return;
+    if (cartItems.length === 0) return;
     calculateTotal({
       variables: {
-        input: {
-          orders: cart,
-        },
+        input: formatToPayload(selectedDate, cartItems),
       },
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cart]);
+  }, [cartItems]);
 
   // ===== VARIABLES
   const price = priceData?.calculateTotalPrice;
@@ -54,17 +55,13 @@ const OrderFormScreen = () => {
   const handleSubmit = () => {
     createOrder({
       variables: {
-        input: {
-          orders: cart,
-        },
+        input: formatToPayload(selectedDate, cartItems),
       },
     });
   };
 
   return (
-    <div>
-      <PageTitle title="Place Order" />
-
+    <div className="flex flex-col h-full">
       <div className="flex flex-col mt-4">
         <div>
           <p className="font-bold">Order ID: {refNumber}</p>
@@ -79,36 +76,65 @@ const OrderFormScreen = () => {
         </div>
       </div>
 
-      <Divider />
+      <div className="border-t mt-5">
+        {map(cartItems, (e, index) => {
+          return (
+            <div className="flex flex-col mt-3" key={index}>
+              <div className="flex flex-row justify-between">
+                <p className="font-bold">
+                  {e?.name} ( x{e?.quantity} )
+                </p>
+                <button
+                  onClick={() => {
+                    setItemSelected(e);
+                    setShowItem(true);
+                  }}
+                >
+                  Edit
+                </button>
+              </div>
 
-      <div>
-        <Button onClick={() => navigate("/menu")} size="regular">
-          <FontAwesomeIcon icon={faPlus} className="text-sm" />
-          <span className="ml-1">Add Item</span>
+              <p>
+                {e?.currency}{" "}
+                {`${parseFloat(toString(e?.price * e?.quantity)).toFixed(2)}`}
+              </p>
+            </div>
+          );
+        })}
+      </div>
+
+      <Button onClick={() => navigate("/menu")} size="regular" className="mt-4">
+        <FontAwesomeIcon icon={faPlus} className="text-sm" />
+        <span className="ml-1">Add Item</span>
+      </Button>
+
+      <div className="border-t mt-5">
+        <OrderInfo
+          content={[
+            {
+              label: "Total Amount",
+              value: `${price?.currency} ${parseFloat(
+                toString(price?.price)
+              ).toFixed(2)}`,
+            },
+          ]}
+          className="my-2"
+        />
+
+        <Button
+          block
+          size="large"
+          className="mt-2"
+          onClick={handleSubmit}
+          disabled={cartItems.length === 0}
+        >
+          Submit
         </Button>
       </div>
 
-      {/* 
-      <OrderInfo
-        content={[
-          {
-            label: "Total Amount",
-            value: `${price?.currency ?? "MYR"} ${parseFloat(
-              toString(price?.price ?? 0)
-            ).toFixed(2)}`,
-          },
-        ]}
-      /> */}
-
-      <Button
-        block
-        size="large"
-        className="mt-2"
-        onClick={handleSubmit}
-        disabled={price?.price === 0 || cart.length === 0}
-      >
-        Submit
-      </Button>
+      <Modal isOpen={showItem}>
+        <OrderItem item={itemSelected} onClose={() => setShowItem(false)} />
+      </Modal>
     </div>
   );
 };

@@ -6,8 +6,8 @@ const OrderInfo: React.FC<Props> = (props) => {
 
   return (
     <div className={className}>
-      {map(content, (cont) => (
-        <div className="flex flex-row items-center">
+      {map(content, (cont, index) => (
+        <div className="flex flex-row items-center" key={index}>
           <div className="flex-none">
             <p className="font-bold">{cont.label}</p>
           </div>

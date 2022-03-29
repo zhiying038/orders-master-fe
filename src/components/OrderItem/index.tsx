@@ -63,7 +63,7 @@ const OrderItem: React.FC<Props> = (props) => {
           />
         </div>
 
-        <Button block onClick={onAddItem}>
+        <Button block onClick={onAddItem} disabled={quantity === 0}>
           Add
         </Button>
       </div>
