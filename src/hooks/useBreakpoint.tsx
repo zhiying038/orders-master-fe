@@ -2,15 +2,18 @@ import throttle from "lodash/throttle";
 import { useEffect, useState } from "react";
 
 // https://betterprogramming.pub/usebreakpoint-hook-get-media-query-breakpoints-in-react-3f1779b73568
+// https://getbootstrap.com/docs/5.0/layout/breakpoints/
 const getDeviceConfig = (width: number) => {
-  if (width < 320) {
+  if (width < 576) {
     return "xs";
-  } else if (width >= 320 && width < 720) {
+  } else if (width >= 576 && width < 768) {
     return "sm";
-  } else if (width >= 720 && width < 1200) {
+  } else if (width >= 768 && width < 992) {
     return "md";
-  } else if (width >= 1200) {
+  } else if (width >= 992 && width < 1200) {
     return "lg";
+  } else if (width >= 1200) {
+    return "xxl";
   }
 };
 
