@@ -1,15 +1,21 @@
 import cx from "classnames";
 import { Wrapper } from "./styles";
 import { Props } from "./props";
+import { useBreakpoint } from "../../hooks/useBreakpoint";
 
 const Layout: React.FC<Props> = (props) => {
   const { children, className } = props;
+  const { breakpoint } = useBreakpoint();
 
   return (
-    <Wrapper>
-      <div className={cx("layout-content flex-vertical-center", className)}>
-        {children}
-      </div>
+    <Wrapper
+      className={cx("container min-h-full", {
+        "w-5/12": ["xl", "xxl"].includes(breakpoint),
+        "max-w-7xl": ["md", "lg"].includes(breakpoint),
+        className,
+      })}
+    >
+      {children}
     </Wrapper>
   );
 };

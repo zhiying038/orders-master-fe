@@ -4,17 +4,20 @@ import { useEffect, useState } from "react";
 // https://betterprogramming.pub/usebreakpoint-hook-get-media-query-breakpoints-in-react-3f1779b73568
 // https://getbootstrap.com/docs/5.0/layout/breakpoints/
 const getDeviceConfig = (width: number) => {
+  let breakpoint = "";
   if (width < 576) {
-    return "xs";
+    breakpoint = "xs";
   } else if (width >= 576 && width < 768) {
-    return "sm";
+    breakpoint = "sm";
   } else if (width >= 768 && width < 992) {
-    return "md";
+    breakpoint = "md";
   } else if (width >= 992 && width < 1200) {
-    return "lg";
+    breakpoint = "lg";
   } else if (width >= 1200) {
-    return "xxl";
+    breakpoint = "xxl";
   }
+
+  return { breakpoint };
 };
 
 export const useBreakpoint = () => {
@@ -32,5 +35,3 @@ export const useBreakpoint = () => {
 
   return breakpoint;
 };
-
-export default useBreakpoint;
