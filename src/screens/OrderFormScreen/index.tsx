@@ -1,27 +1,31 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus, faCircleMinus } from "@fortawesome/free-solid-svg-icons";
+import dayjs from "dayjs";
 import find from "lodash/find";
 import findIndex from "lodash/findIndex";
 import get from "lodash/get";
 import map from "lodash/map";
 import toString from "lodash/toString";
 import { useState, useEffect } from "react";
+import DatePicker from "react-datepicker";
 import DefaultItem from "../../assets/default-item.svg";
 import Button from "../../components/Button";
 import Divider from "../../components/Divider";
-import OrderFooter from "../../components/OrderFooter";
+import OrderInfo from "../../components/OrderInfo";
 import PageTitle from "../../components/PageTitle";
 import {
   ItemInfoFragment,
   useCalculateTotalPriceLazyQuery,
   useGetItemsQuery,
   useCreateOrderMutation,
+  useGetNextReferenceNumberQuery,
 } from "../../graphql";
 import { CartProps } from "./props";
 import { Wrapper } from "./styles";
 
 const OrderFormScreen = () => {
   const { data } = useGetItemsQuery();
+  const { data: nextRefData } = useGetNextReferenceNumberQuery();
   const [calculateTotal, { data: priceData }] =
     useCalculateTotalPriceLazyQuery();
 
@@ -36,6 +40,7 @@ const OrderFormScreen = () => {
   });
 
   const [cart, setCart] = useState<CartProps[]>([]);
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
   useEffect(() => {
     if (cart.length === 0) return;
@@ -49,8 +54,11 @@ const OrderFormScreen = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cart]);
 
+  // ===== VARIABLES
   const price = priceData?.calculateTotalPrice;
+  const refNumber = nextRefData?.getNextReferenceNumber;
 
+  // ===== EVENTS
   const findItemFromCart = (itemCode: string) => {
     const foundIndex = findIndex(cart, ["itemCode", itemCode]);
     return {
@@ -104,9 +112,28 @@ const OrderFormScreen = () => {
 
   return (
     <Wrapper>
-      <PageTitle title="Create Order" />
+      <PageTitle title="Place Order" />
 
-      <div className="mt-4">
+      <div className="flex flex-col mt-4">
+        <div>
+          <p className="font-bold">Order ID: {refNumber}</p>
+        </div>
+        <div className="flex items-center mt-2">
+          <p className="font-bold">Date: </p>
+          <div className="relative w-40 ml-2">
+            <DatePicker
+              selected={selectedDate}
+              dateFormat="dd-MM-yyyy"
+              maxDate={dayjs().add(10, "day").toDate()}
+              onChange={(date) => setSelectedDate(date ?? new Date())}
+            />
+          </div>
+        </div>
+      </div>
+
+      <Divider />
+
+      {/* <div className="mt-4">
         {map(data?.getItems, (item, index) => {
           const foundItem = find(cart, { itemCode: item.code });
           const quantity = foundItem?.quantity ?? 0;
@@ -142,11 +169,10 @@ const OrderFormScreen = () => {
             </div>
           );
         })}
-      </div>
+      </div> */}
 
-      <Divider />
-
-      <OrderFooter
+      {/* 
+      <OrderInfo
         content={[
           {
             label: "Total Amount",
@@ -155,7 +181,7 @@ const OrderFormScreen = () => {
             ).toFixed(2)}`,
           },
         ]}
-      />
+      /> */}
 
       <Button
         block

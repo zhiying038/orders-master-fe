@@ -1,7 +1,7 @@
 import map from "lodash/map";
 import { Props } from "./props";
 
-const OrderFooter: React.FC<Props> = (props) => {
+const OrderInfo: React.FC<Props> = (props) => {
   const { content, className } = props;
 
   return (
@@ -20,4 +20,4 @@ const OrderFooter: React.FC<Props> = (props) => {
   );
 };
 
-export default OrderFooter;
+export default OrderInfo;
