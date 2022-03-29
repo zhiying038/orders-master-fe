@@ -10,7 +10,7 @@ import { Wrapper } from "./styles";
 const ViewOrdersScreen = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentSize, setCurrentSize] = useState<number>(10);
-  const [filterParams, setFilterParams] = useState({});
+  const [filterParams, setFilterParams] = useState<any>({});
 
   const { data, refetch } = useGetPaginatedOrdersQuery({
     variables: {
@@ -39,6 +39,11 @@ const ViewOrdersScreen = () => {
       },
       filter: inFilter,
     });
+  };
+
+  const handleReset = () => {
+    setFilterParams({});
+    handleFilter({});
   };
 
   const sizeOptions = [
@@ -79,6 +84,7 @@ const ViewOrdersScreen = () => {
             name="referenceNumber"
             placeholder="Ref No."
             className="border-2 p-2"
+            value={filterParams?.referenceNumber ?? ""}
             onChange={(e) =>
               setFilterParams({ referenceNumber: e.target.value })
             }
@@ -87,10 +93,7 @@ const ViewOrdersScreen = () => {
 
         <div className="flex flex-row justify-end mt-3">
           <Button
-            onClick={() => {
-              setFilterParams({});
-              handleFilter({});
-            }}
+            onClick={handleReset}
             size="small"
             buttonClassName="mr-2 bg-gray-200"
           >
