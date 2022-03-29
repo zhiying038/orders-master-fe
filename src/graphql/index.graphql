@@ -6,6 +6,9 @@ fragment ItemInfo on Item {
   name
   price
   currency
+  images {
+    ...ItemImageInfo
+  }
 }
 
 query getItems {
@@ -24,6 +27,15 @@ mutation updateItem($input: UpdateItemInput!) {
   updateItem(input: $input) {
     ...ItemInfo
   }
+}
+
+# =============
+# ITEM IMAGE
+# =============
+fragment ItemImageInfo on ItemImage {
+  id
+  link
+  alt
 }
 
 # =============

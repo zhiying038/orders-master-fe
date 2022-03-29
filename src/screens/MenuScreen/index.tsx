@@ -28,6 +28,8 @@ const MenuScreen = () => {
         const foundItem = foundItemInCart(item?.code);
         const foundClass = "border-2 border-primary rounded-lg";
 
+        const firstImage = item?.images?.[0];
+
         return (
           <div
             className={`flex flex-row items-center p-2 ${
@@ -44,8 +46,8 @@ const MenuScreen = () => {
           >
             <img
               style={{ width: "72px", height: "72px", minWidth: "80px" }}
-              src={DefaultItem}
-              alt={item?.name}
+              src={firstImage?.link ?? DefaultItem}
+              alt={firstImage?.alt ?? item?.name}
             />
 
             <div className="flex-grow p-1">

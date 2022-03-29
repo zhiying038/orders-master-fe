@@ -17,6 +17,8 @@ const OrderItem: React.FC<Props> = (props) => {
   const { addItemToCart } = useCart();
   const [quantity, setQuantity] = useState<number>(item?.quantity ?? 0);
 
+  const firstImage = item?.images?.[0];
+
   const onAddItem = () => {
     addItemToCart({ ...item, quantity });
     onClose();
@@ -33,7 +35,10 @@ const OrderItem: React.FC<Props> = (props) => {
           />
         </div>
 
-        <img src={DefaultItem} />
+        <img
+          src={firstImage?.link ?? DefaultItem}
+          alt={firstImage?.alt ?? item?.name}
+        />
 
         <Divider />
 
