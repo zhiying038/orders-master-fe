@@ -50,8 +50,8 @@ export type CreateUploadInput = {
 };
 
 export type FilterOrderInput = {
-  orderId?: InputMaybe<Scalars['Float']>;
   placedAt?: InputMaybe<Scalars['DateTime']>;
+  referenceNumber?: InputMaybe<Scalars['String']>;
 };
 
 export type Item = {
@@ -216,9 +216,9 @@ export type UpdateItemMutation = { __typename?: 'Mutation', updateItem: { __type
 
 export type ItemImageInfoFragment = { __typename?: 'ItemImage', id: string, link: string, alt?: string | null };
 
-export type OrderInfoFragment = { __typename?: 'Order', id: string, totalPrice: number, createdAt: any, orderDetails?: Array<{ __typename?: 'OrderDetail', id: string, quantity: number, item: { __typename?: 'Item', code: string, name: string, price: number, currency: string, images?: Array<{ __typename?: 'ItemImage', id: string, link: string, alt?: string | null }> | null } }> | null };
+export type OrderInfoFragment = { __typename?: 'Order', id: string, referenceNumber: string, totalPrice: number, createdAt: any, orderDetails?: Array<{ __typename?: 'OrderDetail', id: string, quantity: number, item: { __typename?: 'Item', code: string, name: string, price: number, currency: string, images?: Array<{ __typename?: 'ItemImage', id: string, link: string, alt?: string | null }> | null } }> | null };
 
-export type PaginatedOrderInfoFragment = { __typename?: 'Orders', total: number, hasMore: boolean, page: number, pages: number, items: Array<{ __typename?: 'Order', id: string, totalPrice: number, createdAt: any, orderDetails?: Array<{ __typename?: 'OrderDetail', id: string, quantity: number, item: { __typename?: 'Item', code: string, name: string, price: number, currency: string, images?: Array<{ __typename?: 'ItemImage', id: string, link: string, alt?: string | null }> | null } }> | null }> };
+export type PaginatedOrderInfoFragment = { __typename?: 'Orders', total: number, hasMore: boolean, page: number, pages: number, items: Array<{ __typename?: 'Order', id: string, referenceNumber: string, totalPrice: number, createdAt: any, orderDetails?: Array<{ __typename?: 'OrderDetail', id: string, quantity: number, item: { __typename?: 'Item', code: string, name: string, price: number, currency: string, images?: Array<{ __typename?: 'ItemImage', id: string, link: string, alt?: string | null }> | null } }> | null }> };
 
 export type GetPaginatedOrdersQueryVariables = Exact<{
   options: CommonFilterOptionInput;
@@ -226,14 +226,14 @@ export type GetPaginatedOrdersQueryVariables = Exact<{
 }>;
 
 
-export type GetPaginatedOrdersQuery = { __typename?: 'Query', getPaginatedOrders: { __typename?: 'Orders', total: number, hasMore: boolean, page: number, pages: number, items: Array<{ __typename?: 'Order', id: string, totalPrice: number, createdAt: any, orderDetails?: Array<{ __typename?: 'OrderDetail', id: string, quantity: number, item: { __typename?: 'Item', code: string, name: string, price: number, currency: string, images?: Array<{ __typename?: 'ItemImage', id: string, link: string, alt?: string | null }> | null } }> | null }> } };
+export type GetPaginatedOrdersQuery = { __typename?: 'Query', getPaginatedOrders: { __typename?: 'Orders', total: number, hasMore: boolean, page: number, pages: number, items: Array<{ __typename?: 'Order', id: string, referenceNumber: string, totalPrice: number, createdAt: any, orderDetails?: Array<{ __typename?: 'OrderDetail', id: string, quantity: number, item: { __typename?: 'Item', code: string, name: string, price: number, currency: string, images?: Array<{ __typename?: 'ItemImage', id: string, link: string, alt?: string | null }> | null } }> | null }> } };
 
 export type GetOrderByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type GetOrderByIdQuery = { __typename?: 'Query', getOrderById: { __typename?: 'Order', id: string, totalPrice: number, createdAt: any, orderDetails?: Array<{ __typename?: 'OrderDetail', id: string, quantity: number, item: { __typename?: 'Item', code: string, name: string, price: number, currency: string, images?: Array<{ __typename?: 'ItemImage', id: string, link: string, alt?: string | null }> | null } }> | null } };
+export type GetOrderByIdQuery = { __typename?: 'Query', getOrderById: { __typename?: 'Order', id: string, referenceNumber: string, totalPrice: number, createdAt: any, orderDetails?: Array<{ __typename?: 'OrderDetail', id: string, quantity: number, item: { __typename?: 'Item', code: string, name: string, price: number, currency: string, images?: Array<{ __typename?: 'ItemImage', id: string, link: string, alt?: string | null }> | null } }> | null } };
 
 export type CalculateTotalPriceQueryVariables = Exact<{
   input: PlaceOrderInput;
@@ -252,7 +252,7 @@ export type CreateOrderMutationVariables = Exact<{
 }>;
 
 
-export type CreateOrderMutation = { __typename?: 'Mutation', createOrder: { __typename?: 'Order', id: string, totalPrice: number, createdAt: any, orderDetails?: Array<{ __typename?: 'OrderDetail', id: string, quantity: number, item: { __typename?: 'Item', code: string, name: string, price: number, currency: string, images?: Array<{ __typename?: 'ItemImage', id: string, link: string, alt?: string | null }> | null } }> | null } };
+export type CreateOrderMutation = { __typename?: 'Mutation', createOrder: { __typename?: 'Order', id: string, referenceNumber: string, totalPrice: number, createdAt: any, orderDetails?: Array<{ __typename?: 'OrderDetail', id: string, quantity: number, item: { __typename?: 'Item', code: string, name: string, price: number, currency: string, images?: Array<{ __typename?: 'ItemImage', id: string, link: string, alt?: string | null }> | null } }> | null } };
 
 export type OrderDetailInfoFragment = { __typename?: 'OrderDetail', id: string, quantity: number, item: { __typename?: 'Item', code: string, name: string, price: number, currency: string, images?: Array<{ __typename?: 'ItemImage', id: string, link: string, alt?: string | null }> | null } };
 
@@ -295,6 +295,7 @@ export const OrderDetailInfoFragmentDoc = gql`
 export const OrderInfoFragmentDoc = gql`
     fragment OrderInfo on Order {
   id
+  referenceNumber
   totalPrice
   createdAt
   orderDetails {

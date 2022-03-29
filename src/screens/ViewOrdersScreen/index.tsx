@@ -59,7 +59,7 @@ const ViewOrdersScreen = () => {
 
   return (
     <Wrapper>
-      <div style={{ marginTop: "1em" }}>
+      <div className="mt-3">
         <Select
           options={sizeOptions}
           classNamePrefix="react-select"
@@ -68,24 +68,38 @@ const ViewOrdersScreen = () => {
         />
       </div>
 
-      <div className="filter">
+      <div className="mt-3 flex flex-col">
         <div>
-          <label htmlFor="orderId">Order ID: </label>
+          <label htmlFor="orderId" className="mr-2">
+            Ref No:{" "}
+          </label>
           <input
             type="text"
-            id="id"
-            name="id"
-            placeholder="Order ID"
-            onChange={(e) => setFilterParams({ id: Number(e.target.value) })}
+            id="referenceNumber"
+            name="referenceNumber"
+            placeholder="Ref No."
+            className="border-2 p-2"
+            onChange={(e) =>
+              setFilterParams({ referenceNumber: e.target.value })
+            }
           />
         </div>
 
-        <Button
-          onClick={() => handleFilter(filterParams)}
-          className="filter-btn"
-        >
-          Submit
-        </Button>
+        <div className="flex flex-row justify-end mt-3">
+          <Button
+            onClick={() => {
+              setFilterParams({});
+              handleFilter({});
+            }}
+            size="small"
+            buttonClassName="mr-2 bg-gray-200"
+          >
+            Reset
+          </Button>
+          <Button onClick={() => handleFilter(filterParams)} size="small">
+            Submit
+          </Button>
+        </div>
       </div>
 
       <table {...getTableProps()}>

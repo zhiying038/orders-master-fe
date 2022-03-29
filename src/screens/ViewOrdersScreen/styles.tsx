@@ -9,22 +9,6 @@ export const Wrapper = styled.div`
     width: 50%;
   }
 
-  .filter {
-    margin-top: 1em;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
-    .filter-btn {
-      width: 5em;
-      padding: 0;
-    }
-  }
-
-  input[type="text"] {
-    padding: 8px;
-  }
-
   table {
     width: 100%;
     margin-top: 1em;
@@ -50,6 +34,6 @@ export const Wrapper = styled.div`
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: center;
-    background-color: #ffe400;
+    background-color: #facc15;
   }
 `;

@@ -3,14 +3,14 @@ import get from "lodash/get";
 
 export const getColumns = () => [
   {
-    Header: "Order ID",
+    Header: "Ref No.",
     accessor: (data) => {
-      const id = get(data, "id");
+      const id = get(data, "referenceNumber");
       return <p style={{ textAlign: "center", margin: 0 }}>{id}</p>;
     },
   },
   {
-    Header: "Placed On",
+    Header: "Placed At",
     accessor: (data) => {
       const date = get(data, "createdAt");
       return (

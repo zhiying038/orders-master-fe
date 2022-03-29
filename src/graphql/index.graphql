@@ -43,6 +43,7 @@ fragment ItemImageInfo on ItemImage {
 # =============
 fragment OrderInfo on Order {
   id
+  referenceNumber
   totalPrice
   createdAt
   orderDetails {
