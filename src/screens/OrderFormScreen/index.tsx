@@ -21,7 +21,7 @@ const OrderFormScreen = () => {
   const navigate = useNavigate();
 
   // ===== STATES & HOOKS
-  const { cartItems, deleteCart, itemQuantity } = useCart();
+  const { cartItems, itemQuantity, addItemToCart } = useCart();
   const { data: nextRefData } = useGetNextReferenceNumberQuery();
   const [calculateTotal, { data: priceData }] =
     useCalculateTotalPriceLazyQuery();
@@ -29,7 +29,6 @@ const OrderFormScreen = () => {
   const [createOrder] = useCreateOrderMutation({
     onCompleted: () => {
       alert("Successfully created order");
-      deleteCart();
     },
     onError: () => {
       alert("Failed to create order");
@@ -61,6 +60,12 @@ const OrderFormScreen = () => {
         input: formatToPayload(selectedDate, cartItems),
       },
     });
+  };
+
+  const handleAdd = (item) => {
+    addItemToCart(item);
+    setShowItem(false);
+    setItemSelected(undefined);
   };
 
   return (
@@ -144,7 +149,11 @@ const OrderFormScreen = () => {
       </div>
 
       <Modal isOpen={showItem}>
-        <OrderItem item={itemSelected} onClose={() => setShowItem(false)} />
+        <OrderItem
+          item={itemSelected}
+          onClose={() => setShowItem(false)}
+          handleAdd={handleAdd}
+        />
       </Modal>
     </div>
   );

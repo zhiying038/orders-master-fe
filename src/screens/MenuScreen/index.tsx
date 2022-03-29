@@ -12,7 +12,7 @@ import { useCart } from "../../hooks/useCart";
 const MenuScreen = () => {
   const navigate = useNavigate();
 
-  const { findItemFromCart } = useCart();
+  const { findItemFromCart, addItemToCart } = useCart();
   const { data, refetch } = useGetItemsQuery();
 
   const [showItem, setShowItem] = useState<boolean>(false);
@@ -22,6 +22,12 @@ const MenuScreen = () => {
     refetch({
       searchText: value,
     });
+  };
+
+  const handleAdd = (item) => {
+    addItemToCart(item);
+    setShowItem(false);
+    setItemSelected(null);
   };
 
   return (
@@ -84,7 +90,11 @@ const MenuScreen = () => {
       </Button>
 
       <Modal isOpen={showItem}>
-        <OrderItem item={itemSelected} onClose={() => setShowItem(false)} />
+        <OrderItem
+          item={itemSelected}
+          onClose={() => setShowItem(false)}
+          handleAdd={handleAdd}
+        />
       </Modal>
     </div>
   );

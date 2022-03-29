@@ -9,20 +9,13 @@ import Button from "../Button";
 import Divider from "../Divider";
 import { Props } from "./props";
 import { useState } from "react";
-import { useCart } from "../../hooks/useCart";
 
 const OrderItem: React.FC<Props> = (props) => {
-  const { item, onClose } = props;
+  const { item, onClose, handleAdd } = props;
 
-  const { addItemToCart } = useCart();
   const [quantity, setQuantity] = useState<number>(item?.quantity ?? 0);
 
   const firstImage = item?.images?.[0];
-
-  const onAddItem = () => {
-    addItemToCart({ ...item, quantity });
-    onClose();
-  };
 
   return (
     <div className="flex flex-col h-full">
@@ -68,7 +61,11 @@ const OrderItem: React.FC<Props> = (props) => {
           />
         </div>
 
-        <Button block onClick={onAddItem} disabled={quantity === 0}>
+        <Button
+          block
+          onClick={() => handleAdd?.({ ...item, quantity })}
+          disabled={quantity === 0}
+        >
           Add
         </Button>
       </div>

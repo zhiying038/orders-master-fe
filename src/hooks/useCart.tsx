@@ -57,7 +57,6 @@ export const useCart = () => {
   return {
     addItemToCart,
     cartItems,
-    deleteCart,
     itemQuantity: numItems,
     findItemFromCart,
   };
