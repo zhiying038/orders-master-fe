@@ -11,7 +11,7 @@ import { Props } from "./props";
 import { useState } from "react";
 
 const OrderItem: React.FC<Props> = (props) => {
-  const { item, onClose, handleAdd } = props;
+  const { item, onClose, handleAdd, isSelected } = props;
 
   const [quantity, setQuantity] = useState<number>(item?.quantity ?? 0);
 
@@ -61,12 +61,8 @@ const OrderItem: React.FC<Props> = (props) => {
           />
         </div>
 
-        <Button
-          block
-          onClick={() => handleAdd?.({ ...item, quantity })}
-          disabled={quantity === 0}
-        >
-          Add
+        <Button block onClick={() => handleAdd?.({ ...item, quantity })}>
+          {!isSelected ? "Add" : "Update"}
         </Button>
       </div>
     </div>

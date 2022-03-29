@@ -94,6 +94,7 @@ const MenuScreen = () => {
           item={itemSelected}
           onClose={() => setShowItem(false)}
           handleAdd={handleAdd}
+          isSelected={findItemFromCart(itemSelected?.code)}
         />
       </Modal>
     </div>

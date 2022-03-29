@@ -21,7 +21,8 @@ const OrderFormScreen = () => {
   const navigate = useNavigate();
 
   // ===== STATES & HOOKS
-  const { cartItems, itemQuantity, addItemToCart } = useCart();
+  const { cartItems, itemQuantity, addItemToCart, findItemFromCart } =
+    useCart();
   const { data: nextRefData } = useGetNextReferenceNumberQuery();
   const [calculateTotal, { data: priceData }] =
     useCalculateTotalPriceLazyQuery();
@@ -37,7 +38,7 @@ const OrderFormScreen = () => {
 
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [showItem, setShowItem] = useState<boolean>(false);
-  const [itemSelected, setItemSelected] = useState();
+  const [itemSelected, setItemSelected] = useState<any>();
 
   // ===== EFFECTS
   useEffect(() => {
@@ -153,6 +154,7 @@ const OrderFormScreen = () => {
           item={itemSelected}
           onClose={() => setShowItem(false)}
           handleAdd={handleAdd}
+          isSelected={findItemFromCart(itemSelected?.code)}
         />
       </Modal>
     </div>
