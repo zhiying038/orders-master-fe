@@ -5,7 +5,6 @@ import { useLocalStorage } from "react-use";
 
 export const useCart = () => {
   const [cartItems, setCartItems] = useState<any[]>([]);
-  const [isEmpty, setIsEmpty] = useState<boolean>(false);
   const [cart, setCart, removeCart] = useLocalStorage("cart", "{}");
 
   const setOnCart = (items: any[]): void => {
@@ -14,15 +13,12 @@ export const useCart = () => {
 
   const deleteCart = () => removeCart();
 
-  const findItemIndex = (code: string): number => {
-    return findIndex(cartItems, (e) => {
-      return e.code === code;
-    });
-  };
-
   const addItemToCart = (item: any) => {
     const itemCode = item?.code;
-    const foundIndex = findItemIndex(itemCode);
+    const foundIndex = findIndex(cartItems, (e) => {
+      return e.code === itemCode;
+    });
+
     let currentItems: any[] = [];
     if (foundIndex === -1) {
       currentItems = [...cartItems, item];
@@ -41,8 +37,7 @@ export const useCart = () => {
   useEffect(() => {
     const items = getCartFromLocalStorage() ?? [];
     setCartItems(items);
-    setIsEmpty(items.length === 0);
   }, [cart]);
 
-  return { addItemToCart, isEmpty, cartItems };
+  return { addItemToCart, cartItems, deleteCart };
 };

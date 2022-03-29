@@ -2,7 +2,6 @@ import { useState, useMemo, useEffect } from "react";
 import Select from "react-select";
 import { useTable } from "react-table";
 import Button from "../../components/Button";
-import PageTitle from "../../components/PageTitle";
 import Pagination from "../../components/Pagination";
 import { useGetPaginatedOrdersQuery } from "../../graphql";
 import { getColumns } from "./settings";
@@ -60,8 +59,6 @@ const ViewOrdersScreen = () => {
 
   return (
     <Wrapper>
-      <PageTitle title="All Orders" />
-
       <div style={{ marginTop: "1em" }}>
         <Select
           options={sizeOptions}

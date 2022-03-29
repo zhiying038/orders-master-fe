@@ -20,7 +20,8 @@ import { formatToPayload } from "./helpers";
 const OrderFormScreen = () => {
   const navigate = useNavigate();
 
-  const { cartItems } = useCart();
+  // ===== STATES & HOOKS
+  const { cartItems, deleteCart } = useCart();
   const { data: nextRefData } = useGetNextReferenceNumberQuery();
   const [calculateTotal, { data: priceData }] =
     useCalculateTotalPriceLazyQuery();
@@ -28,6 +29,7 @@ const OrderFormScreen = () => {
   const [createOrder] = useCreateOrderMutation({
     onCompleted: () => {
       alert("Successfully created order");
+      deleteCart();
     },
     onError: () => {
       alert("Failed to create order");
@@ -38,6 +40,7 @@ const OrderFormScreen = () => {
   const [showItem, setShowItem] = useState<boolean>(false);
   const [itemSelected, setItemSelected] = useState();
 
+  // ===== EFFECTS
   useEffect(() => {
     if (cartItems.length === 0) return;
     calculateTotal({
@@ -61,7 +64,7 @@ const OrderFormScreen = () => {
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div>
       <div className="flex flex-col mt-4">
         <div>
           <p className="font-bold">Order ID: {refNumber}</p>
@@ -101,20 +104,24 @@ const OrderFormScreen = () => {
             </div>
           );
         })}
+
+        <Button
+          onClick={() => navigate("/menu")}
+          size="regular"
+          className="mt-4"
+        >
+          <FontAwesomeIcon icon={faPlus} className="text-sm" />
+          <span className="ml-1">Add Item</span>
+        </Button>
       </div>
 
-      <Button onClick={() => navigate("/menu")} size="regular" className="mt-4">
-        <FontAwesomeIcon icon={faPlus} className="text-sm" />
-        <span className="ml-1">Add Item</span>
-      </Button>
-
-      <div className="border-t mt-5">
+      <div className="border-t mt-5 bottom-0">
         <OrderInfo
           content={[
             {
               label: "Total Amount",
-              value: `${price?.currency} ${parseFloat(
-                toString(price?.price)
+              value: `${price?.currency ?? "MYR"} ${parseFloat(
+                toString(price?.price ?? "0")
               ).toFixed(2)}`,
             },
           ]}
@@ -124,11 +131,11 @@ const OrderFormScreen = () => {
         <Button
           block
           size="large"
-          className="mt-2"
+          className="mt-6"
           onClick={handleSubmit}
           disabled={cartItems.length === 0}
         >
-          Submit
+          Checkout
         </Button>
       </div>
 
