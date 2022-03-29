@@ -116,6 +116,7 @@ const ViewOrdersScreen = () => {
       </table>
 
       <Pagination
+        className="mt-4"
         disabledNext={noNextPage}
         disabledPrev={noPrevPage}
         onClickNext={() => setCurrentPage(currentPage + 1)}

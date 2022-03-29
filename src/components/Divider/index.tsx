@@ -1,15 +1,18 @@
 import cx from "classnames";
 import { Props } from "./props";
-import { Wrapper } from "./styles";
 
 const Divider: React.FC<Props> = (props) => {
-  const { className, type } = props;
+  const { className, content } = props;
 
-  return <Wrapper className={cx(className, type)}></Wrapper>;
-};
-
-Divider.defaultProps = {
-  type: "solid",
+  return (
+    <div className={cx("relative flex py-5 items-center", className)}>
+      <div className="flex-grow border-t border-gray-400"></div>
+      {content && (
+        <span className="flex-shrink mx-4 text-gray-400">Content</span>
+      )}
+      <div className="flex-grow border-t border-gray-400"></div>
+    </div>
+  );
 };
 
 export default Divider;

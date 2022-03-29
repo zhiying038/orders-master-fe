@@ -16,7 +16,7 @@ const Button: React.FC<Props> = (props) => {
   } = props;
 
   return (
-    <div className={cx("flex-row", className)}>
+    <div className={cx("flex flex-row", className)}>
       <button
         className={cx(
           "justify-center rounded-lg content-center",
@@ -26,7 +26,7 @@ const Button: React.FC<Props> = (props) => {
             "h-12 px-6": size === "large",
             "h-10 px-5": size === "regular",
             "h-8 px-4": size === "small",
-            "flex-auto w-full": block,
+            "flex-auto": block,
             "items-center": center,
             "bg-primary": primary,
           },

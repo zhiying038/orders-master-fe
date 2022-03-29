@@ -1,21 +1,23 @@
+import map from "lodash/map";
 import { Props } from "./props";
-import { Wrapper } from "./styles";
 
 const OrderFooter: React.FC<Props> = (props) => {
-  const { amount, currency } = props;
+  const { content, className } = props;
 
   return (
-    <Wrapper>
-      <p className="label">Total Amount:</p>
-      <p className="value">
-        {currency} {parseFloat(amount.toString()).toFixed(2)}
-      </p>
-    </Wrapper>
+    <div className={className}>
+      {map(content, (cont) => (
+        <div className="flex flex-row items-center">
+          <div className="flex-none">
+            <p className="font-bold">{cont.label}</p>
+          </div>
+          <div className="flex-grow">
+            <p className="text-right">{cont.value}</p>
+          </div>
+        </div>
+      ))}
+    </div>
   );
-};
-
-OrderFooter.defaultProps = {
-  currency: "MYR",
 };
 
 export default OrderFooter;

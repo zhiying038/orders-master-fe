@@ -1,21 +1,21 @@
+import cx from "classnames";
 import Button from "../Button";
 import { Props } from "./props";
-import { Wrapper } from "./styles";
 
 const Pagination: React.FC<Props> = (props) => {
   const { disabledNext, disabledPrev, onClickNext, onClickPrev, className } =
     props;
 
   return (
-    <Wrapper className={className}>
-      <Button onClick={onClickPrev} disabled={disabledPrev}>
+    <div className={cx("grid grid-cols-2 gap-2", className)}>
+      <Button onClick={onClickPrev} disabled={disabledPrev} block>
         Previous
       </Button>
 
-      <Button onClick={onClickNext} disabled={disabledNext}>
+      <Button onClick={onClickNext} disabled={disabledNext} block>
         Next
       </Button>
-    </Wrapper>
+    </div>
   );
 };
 

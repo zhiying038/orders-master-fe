@@ -1,4 +1,4 @@
 export type Props = {
-  currency?: string;
-  amount: number;
+  className?: string;
+  content: { label: string; value: string }[];
 };

@@ -4,6 +4,7 @@ import find from "lodash/find";
 import findIndex from "lodash/findIndex";
 import get from "lodash/get";
 import map from "lodash/map";
+import toString from "lodash/toString";
 import { useState, useEffect } from "react";
 import DefaultItem from "../../assets/default-item.svg";
 import Button from "../../components/Button";
@@ -143,7 +144,16 @@ const OrderFormScreen = () => {
 
       <Divider className="divider" />
 
-      <OrderFooter amount={price?.price ?? 0} currency={price?.currency} />
+      <OrderFooter
+        content={[
+          {
+            label: "Total Amount",
+            value: `${price?.currency ?? "MYR"} ${parseFloat(
+              toString(price?.price ?? 0)
+            ).toFixed(2)}`,
+          },
+        ]}
+      />
 
       <Button
         block
