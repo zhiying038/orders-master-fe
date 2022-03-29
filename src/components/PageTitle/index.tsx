@@ -16,7 +16,11 @@ const PageTitle: React.FC<Props> = (props) => {
     <div className={cx("flex flex-row items-center", className)}>
       {enableBack && (
         <div className="p-2">
-          <FontAwesomeIcon icon={faArrowLeft} onClick={onActionBack} />
+          <FontAwesomeIcon
+            icon={faArrowLeft}
+            onClick={onActionBack}
+            className="cursor-pointer"
+          />
         </div>
       )}
 

@@ -43,7 +43,7 @@ const MenuScreen = () => {
 
           return (
             <div
-              className={`flex flex-row items-center p-2 mb-4 ${
+              className={`flex flex-row items-center p-2 mb-4 cursor-pointer ${
                 foundItem && foundClass
               }`}
               key={index}
