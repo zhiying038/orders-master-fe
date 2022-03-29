@@ -145,7 +145,13 @@ const OrderFormScreen = () => {
 
       <OrderFooter amount={price?.price ?? 0} currency={price?.currency} />
 
-      <Button onClick={handleSubmit} disabled={price?.price === 0}>
+      <Button
+        block
+        size="large"
+        className="mt-2"
+        onClick={handleSubmit}
+        disabled={price?.price === 0 || cart.length === 0}
+      >
         Submit
       </Button>
     </Wrapper>
