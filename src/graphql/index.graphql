@@ -8,12 +8,6 @@ fragment ItemInfo on Item {
   currency
 }
 
-query getItemByCode($code: String!) {
-  getItemByCode(code: $code) {
-    ...ItemInfo
-  }
-}
-
 query getItems {
   getItems {
     ...ItemInfo
@@ -54,12 +48,6 @@ fragment PaginatedOrderInfo on Orders {
   pages
 }
 
-query getOrders($filter: FilterOrderInput) {
-  getOrders(filter: $filter) {
-    ...OrderInfo
-  }
-}
-
 query getPaginatedOrders(
   $options: CommonFilterOptionInput!
   $filter: FilterOrderInput
@@ -75,14 +63,18 @@ query getOrderById($id: Int!) {
   }
 }
 
-query calculateTotalPrice($input: [CreateOrderDetailInput!]!) {
+query calculateTotalPrice($input: PlaceOrderInput!) {
   calculateTotalPrice(input: $input) {
     currency
     price
   }
 }
 
-mutation createOrder($input: [CreateOrderDetailInput!]!) {
+query getNextReferenceNumber {
+  getNextReferenceNumber
+}
+
+mutation createOrder($input: PlaceOrderInput!) {
   createOrder(input: $input) {
     ...OrderInfo
   }
@@ -96,5 +88,18 @@ fragment OrderDetailInfo on OrderDetail {
   quantity
   item {
     ...ItemInfo
+  }
+}
+
+# =============
+# SIGNED URL
+# =============
+fragment SignedUrlInfo on SignedUrl {
+  signedUrl
+}
+
+mutation generateSignedUrl($input: CreateUploadInput!) {
+  generateSignedUrl(input: $input) {
+    ...SignedUrlInfo
   }
 }

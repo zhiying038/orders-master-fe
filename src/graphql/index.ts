@@ -17,6 +17,11 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type AddItemImageInput = {
+  alt?: InputMaybe<Scalars['String']>;
+  link: Scalars['String'];
+};
+
 export type CommonFilterOptionInput = {
   limit?: InputMaybe<Scalars['Int']>;
   page?: InputMaybe<Scalars['Int']>;
@@ -27,6 +32,7 @@ export type CommonFilterOptionInput = {
 export type CreateItemInput = {
   code: Scalars['String'];
   currency?: InputMaybe<Scalars['String']>;
+  images?: InputMaybe<Array<AddItemImageInput>>;
   name: Scalars['String'];
   price: Scalars['Float'];
 };
@@ -35,19 +41,35 @@ export type CreateOrderDetailInput = {
   itemCode: Scalars['String'];
   orderId?: InputMaybe<Scalars['Float']>;
   quantity: Scalars['Int'];
+  unitPrice: Scalars['Float'];
+};
+
+export type CreateUploadInput = {
+  mimeType: Scalars['String'];
+  purpose: UploadPurpose;
 };
 
 export type FilterOrderInput = {
-  createdAt?: InputMaybe<Scalars['DateTime']>;
-  id?: InputMaybe<Scalars['Int']>;
+  orderId?: InputMaybe<Scalars['Float']>;
+  placedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
 export type Item = {
   __typename?: 'Item';
   code: Scalars['String'];
   currency: Scalars['String'];
+  id: Scalars['String'];
+  images?: Maybe<Array<ItemImage>>;
   name: Scalars['String'];
   price: Scalars['Float'];
+};
+
+export type ItemImage = {
+  __typename?: 'ItemImage';
+  alt?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  item: Item;
+  link: Scalars['String'];
 };
 
 export type Mutation = {
@@ -55,6 +77,7 @@ export type Mutation = {
   createItem: Item;
   createOrder: Order;
   deleteItems: Scalars['Boolean'];
+  generateSignedUrl: SignedUrl;
   updateItem: Item;
 };
 
@@ -65,12 +88,17 @@ export type MutationCreateItemArgs = {
 
 
 export type MutationCreateOrderArgs = {
-  input: Array<CreateOrderDetailInput>;
+  input: PlaceOrderInput;
 };
 
 
 export type MutationDeleteItemsArgs = {
   codes: Array<Scalars['String']>;
+};
+
+
+export type MutationGenerateSignedUrlArgs = {
+  input: CreateUploadInput;
 };
 
 
@@ -81,8 +109,11 @@ export type MutationUpdateItemArgs = {
 export type Order = {
   __typename?: 'Order';
   createdAt: Scalars['DateTime'];
-  id: Scalars['Int'];
+  currency: Scalars['String'];
+  id: Scalars['String'];
   orderDetails?: Maybe<Array<OrderDetail>>;
+  placedAt: Scalars['DateTime'];
+  referenceNumber: Scalars['String'];
   totalPrice: Scalars['Float'];
 };
 
@@ -92,6 +123,7 @@ export type OrderDetail = {
   item: Item;
   order: Order;
   quantity: Scalars['Int'];
+  unitPrice: Scalars['Float'];
 };
 
 export type Orders = {
@@ -103,6 +135,11 @@ export type Orders = {
   total: Scalars['Int'];
 };
 
+export type PlaceOrderInput = {
+  orders: Array<CreateOrderDetailInput>;
+  placedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
 export type Price = {
   __typename?: 'Price';
   currency: Scalars['String'];
@@ -112,21 +149,15 @@ export type Price = {
 export type Query = {
   __typename?: 'Query';
   calculateTotalPrice: Price;
-  getItemByCode: Item;
   getItems: Array<Item>;
+  getNextReferenceNumber: Scalars['String'];
   getOrderById: Order;
-  getOrders: Array<Order>;
   getPaginatedOrders: Orders;
 };
 
 
 export type QueryCalculateTotalPriceArgs = {
-  input: Array<CreateOrderDetailInput>;
-};
-
-
-export type QueryGetItemByCodeArgs = {
-  code: Scalars['String'];
+  input: PlaceOrderInput;
 };
 
 
@@ -135,14 +166,14 @@ export type QueryGetOrderByIdArgs = {
 };
 
 
-export type QueryGetOrdersArgs = {
-  filter?: InputMaybe<FilterOrderInput>;
-};
-
-
 export type QueryGetPaginatedOrdersArgs = {
   filter?: InputMaybe<FilterOrderInput>;
   options: CommonFilterOptionInput;
+};
+
+export type SignedUrl = {
+  __typename?: 'SignedUrl';
+  signedUrl?: Maybe<Scalars['String']>;
 };
 
 export enum SortOrder {
@@ -153,18 +184,16 @@ export enum SortOrder {
 export type UpdateItemInput = {
   code: Scalars['String'];
   currency?: InputMaybe<Scalars['String']>;
+  images?: InputMaybe<Array<AddItemImageInput>>;
   name?: InputMaybe<Scalars['String']>;
   price?: InputMaybe<Scalars['Float']>;
 };
 
+export enum UploadPurpose {
+  Image = 'IMAGE'
+}
+
 export type ItemInfoFragment = { __typename?: 'Item', code: string, name: string, price: number, currency: string };
-
-export type GetItemByCodeQueryVariables = Exact<{
-  code: Scalars['String'];
-}>;
-
-
-export type GetItemByCodeQuery = { __typename?: 'Query', getItemByCode: { __typename?: 'Item', code: string, name: string, price: number, currency: string } };
 
 export type GetItemsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -185,16 +214,9 @@ export type UpdateItemMutationVariables = Exact<{
 
 export type UpdateItemMutation = { __typename?: 'Mutation', updateItem: { __typename?: 'Item', code: string, name: string, price: number, currency: string } };
 
-export type OrderInfoFragment = { __typename?: 'Order', id: number, totalPrice: number, createdAt: any, orderDetails?: Array<{ __typename?: 'OrderDetail', id: string, quantity: number, item: { __typename?: 'Item', code: string, name: string, price: number, currency: string } }> | null };
+export type OrderInfoFragment = { __typename?: 'Order', id: string, totalPrice: number, createdAt: any, orderDetails?: Array<{ __typename?: 'OrderDetail', id: string, quantity: number, item: { __typename?: 'Item', code: string, name: string, price: number, currency: string } }> | null };
 
-export type PaginatedOrderInfoFragment = { __typename?: 'Orders', total: number, hasMore: boolean, page: number, pages: number, items: Array<{ __typename?: 'Order', id: number, totalPrice: number, createdAt: any, orderDetails?: Array<{ __typename?: 'OrderDetail', id: string, quantity: number, item: { __typename?: 'Item', code: string, name: string, price: number, currency: string } }> | null }> };
-
-export type GetOrdersQueryVariables = Exact<{
-  filter?: InputMaybe<FilterOrderInput>;
-}>;
-
-
-export type GetOrdersQuery = { __typename?: 'Query', getOrders: Array<{ __typename?: 'Order', id: number, totalPrice: number, createdAt: any, orderDetails?: Array<{ __typename?: 'OrderDetail', id: string, quantity: number, item: { __typename?: 'Item', code: string, name: string, price: number, currency: string } }> | null }> };
+export type PaginatedOrderInfoFragment = { __typename?: 'Orders', total: number, hasMore: boolean, page: number, pages: number, items: Array<{ __typename?: 'Order', id: string, totalPrice: number, createdAt: any, orderDetails?: Array<{ __typename?: 'OrderDetail', id: string, quantity: number, item: { __typename?: 'Item', code: string, name: string, price: number, currency: string } }> | null }> };
 
 export type GetPaginatedOrdersQueryVariables = Exact<{
   options: CommonFilterOptionInput;
@@ -202,30 +224,44 @@ export type GetPaginatedOrdersQueryVariables = Exact<{
 }>;
 
 
-export type GetPaginatedOrdersQuery = { __typename?: 'Query', getPaginatedOrders: { __typename?: 'Orders', total: number, hasMore: boolean, page: number, pages: number, items: Array<{ __typename?: 'Order', id: number, totalPrice: number, createdAt: any, orderDetails?: Array<{ __typename?: 'OrderDetail', id: string, quantity: number, item: { __typename?: 'Item', code: string, name: string, price: number, currency: string } }> | null }> } };
+export type GetPaginatedOrdersQuery = { __typename?: 'Query', getPaginatedOrders: { __typename?: 'Orders', total: number, hasMore: boolean, page: number, pages: number, items: Array<{ __typename?: 'Order', id: string, totalPrice: number, createdAt: any, orderDetails?: Array<{ __typename?: 'OrderDetail', id: string, quantity: number, item: { __typename?: 'Item', code: string, name: string, price: number, currency: string } }> | null }> } };
 
 export type GetOrderByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type GetOrderByIdQuery = { __typename?: 'Query', getOrderById: { __typename?: 'Order', id: number, totalPrice: number, createdAt: any, orderDetails?: Array<{ __typename?: 'OrderDetail', id: string, quantity: number, item: { __typename?: 'Item', code: string, name: string, price: number, currency: string } }> | null } };
+export type GetOrderByIdQuery = { __typename?: 'Query', getOrderById: { __typename?: 'Order', id: string, totalPrice: number, createdAt: any, orderDetails?: Array<{ __typename?: 'OrderDetail', id: string, quantity: number, item: { __typename?: 'Item', code: string, name: string, price: number, currency: string } }> | null } };
 
 export type CalculateTotalPriceQueryVariables = Exact<{
-  input: Array<CreateOrderDetailInput> | CreateOrderDetailInput;
+  input: PlaceOrderInput;
 }>;
 
 
 export type CalculateTotalPriceQuery = { __typename?: 'Query', calculateTotalPrice: { __typename?: 'Price', currency: string, price: number } };
 
+export type GetNextReferenceNumberQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetNextReferenceNumberQuery = { __typename?: 'Query', getNextReferenceNumber: string };
+
 export type CreateOrderMutationVariables = Exact<{
-  input: Array<CreateOrderDetailInput> | CreateOrderDetailInput;
+  input: PlaceOrderInput;
 }>;
 
 
-export type CreateOrderMutation = { __typename?: 'Mutation', createOrder: { __typename?: 'Order', id: number, totalPrice: number, createdAt: any, orderDetails?: Array<{ __typename?: 'OrderDetail', id: string, quantity: number, item: { __typename?: 'Item', code: string, name: string, price: number, currency: string } }> | null } };
+export type CreateOrderMutation = { __typename?: 'Mutation', createOrder: { __typename?: 'Order', id: string, totalPrice: number, createdAt: any, orderDetails?: Array<{ __typename?: 'OrderDetail', id: string, quantity: number, item: { __typename?: 'Item', code: string, name: string, price: number, currency: string } }> | null } };
 
 export type OrderDetailInfoFragment = { __typename?: 'OrderDetail', id: string, quantity: number, item: { __typename?: 'Item', code: string, name: string, price: number, currency: string } };
+
+export type SignedUrlInfoFragment = { __typename?: 'SignedUrl', signedUrl?: string | null };
+
+export type GenerateSignedUrlMutationVariables = Exact<{
+  input: CreateUploadInput;
+}>;
+
+
+export type GenerateSignedUrlMutation = { __typename?: 'Mutation', generateSignedUrl: { __typename?: 'SignedUrl', signedUrl?: string | null } };
 
 export const ItemInfoFragmentDoc = gql`
     fragment ItemInfo on Item {
@@ -265,41 +301,11 @@ export const PaginatedOrderInfoFragmentDoc = gql`
   pages
 }
     ${OrderInfoFragmentDoc}`;
-export const GetItemByCodeDocument = gql`
-    query getItemByCode($code: String!) {
-  getItemByCode(code: $code) {
-    ...ItemInfo
-  }
+export const SignedUrlInfoFragmentDoc = gql`
+    fragment SignedUrlInfo on SignedUrl {
+  signedUrl
 }
-    ${ItemInfoFragmentDoc}`;
-
-/**
- * __useGetItemByCodeQuery__
- *
- * To run a query within a React component, call `useGetItemByCodeQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetItemByCodeQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetItemByCodeQuery({
- *   variables: {
- *      code: // value for 'code'
- *   },
- * });
- */
-export function useGetItemByCodeQuery(baseOptions: Apollo.QueryHookOptions<GetItemByCodeQuery, GetItemByCodeQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetItemByCodeQuery, GetItemByCodeQueryVariables>(GetItemByCodeDocument, options);
-      }
-export function useGetItemByCodeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetItemByCodeQuery, GetItemByCodeQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetItemByCodeQuery, GetItemByCodeQueryVariables>(GetItemByCodeDocument, options);
-        }
-export type GetItemByCodeQueryHookResult = ReturnType<typeof useGetItemByCodeQuery>;
-export type GetItemByCodeLazyQueryHookResult = ReturnType<typeof useGetItemByCodeLazyQuery>;
-export type GetItemByCodeQueryResult = Apollo.QueryResult<GetItemByCodeQuery, GetItemByCodeQueryVariables>;
+    `;
 export const GetItemsDocument = gql`
     query getItems {
   getItems {
@@ -400,41 +406,6 @@ export function useUpdateItemMutation(baseOptions?: Apollo.MutationHookOptions<U
 export type UpdateItemMutationHookResult = ReturnType<typeof useUpdateItemMutation>;
 export type UpdateItemMutationResult = Apollo.MutationResult<UpdateItemMutation>;
 export type UpdateItemMutationOptions = Apollo.BaseMutationOptions<UpdateItemMutation, UpdateItemMutationVariables>;
-export const GetOrdersDocument = gql`
-    query getOrders($filter: FilterOrderInput) {
-  getOrders(filter: $filter) {
-    ...OrderInfo
-  }
-}
-    ${OrderInfoFragmentDoc}`;
-
-/**
- * __useGetOrdersQuery__
- *
- * To run a query within a React component, call `useGetOrdersQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetOrdersQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetOrdersQuery({
- *   variables: {
- *      filter: // value for 'filter'
- *   },
- * });
- */
-export function useGetOrdersQuery(baseOptions?: Apollo.QueryHookOptions<GetOrdersQuery, GetOrdersQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetOrdersQuery, GetOrdersQueryVariables>(GetOrdersDocument, options);
-      }
-export function useGetOrdersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOrdersQuery, GetOrdersQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetOrdersQuery, GetOrdersQueryVariables>(GetOrdersDocument, options);
-        }
-export type GetOrdersQueryHookResult = ReturnType<typeof useGetOrdersQuery>;
-export type GetOrdersLazyQueryHookResult = ReturnType<typeof useGetOrdersLazyQuery>;
-export type GetOrdersQueryResult = Apollo.QueryResult<GetOrdersQuery, GetOrdersQueryVariables>;
 export const GetPaginatedOrdersDocument = gql`
     query getPaginatedOrders($options: CommonFilterOptionInput!, $filter: FilterOrderInput) {
   getPaginatedOrders(options: $options, filter: $filter) {
@@ -507,7 +478,7 @@ export type GetOrderByIdQueryHookResult = ReturnType<typeof useGetOrderByIdQuery
 export type GetOrderByIdLazyQueryHookResult = ReturnType<typeof useGetOrderByIdLazyQuery>;
 export type GetOrderByIdQueryResult = Apollo.QueryResult<GetOrderByIdQuery, GetOrderByIdQueryVariables>;
 export const CalculateTotalPriceDocument = gql`
-    query calculateTotalPrice($input: [CreateOrderDetailInput!]!) {
+    query calculateTotalPrice($input: PlaceOrderInput!) {
   calculateTotalPrice(input: $input) {
     currency
     price
@@ -542,8 +513,40 @@ export function useCalculateTotalPriceLazyQuery(baseOptions?: Apollo.LazyQueryHo
 export type CalculateTotalPriceQueryHookResult = ReturnType<typeof useCalculateTotalPriceQuery>;
 export type CalculateTotalPriceLazyQueryHookResult = ReturnType<typeof useCalculateTotalPriceLazyQuery>;
 export type CalculateTotalPriceQueryResult = Apollo.QueryResult<CalculateTotalPriceQuery, CalculateTotalPriceQueryVariables>;
+export const GetNextReferenceNumberDocument = gql`
+    query getNextReferenceNumber {
+  getNextReferenceNumber
+}
+    `;
+
+/**
+ * __useGetNextReferenceNumberQuery__
+ *
+ * To run a query within a React component, call `useGetNextReferenceNumberQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetNextReferenceNumberQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetNextReferenceNumberQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetNextReferenceNumberQuery(baseOptions?: Apollo.QueryHookOptions<GetNextReferenceNumberQuery, GetNextReferenceNumberQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetNextReferenceNumberQuery, GetNextReferenceNumberQueryVariables>(GetNextReferenceNumberDocument, options);
+      }
+export function useGetNextReferenceNumberLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetNextReferenceNumberQuery, GetNextReferenceNumberQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetNextReferenceNumberQuery, GetNextReferenceNumberQueryVariables>(GetNextReferenceNumberDocument, options);
+        }
+export type GetNextReferenceNumberQueryHookResult = ReturnType<typeof useGetNextReferenceNumberQuery>;
+export type GetNextReferenceNumberLazyQueryHookResult = ReturnType<typeof useGetNextReferenceNumberLazyQuery>;
+export type GetNextReferenceNumberQueryResult = Apollo.QueryResult<GetNextReferenceNumberQuery, GetNextReferenceNumberQueryVariables>;
 export const CreateOrderDocument = gql`
-    mutation createOrder($input: [CreateOrderDetailInput!]!) {
+    mutation createOrder($input: PlaceOrderInput!) {
   createOrder(input: $input) {
     ...OrderInfo
   }
@@ -575,3 +578,36 @@ export function useCreateOrderMutation(baseOptions?: Apollo.MutationHookOptions<
 export type CreateOrderMutationHookResult = ReturnType<typeof useCreateOrderMutation>;
 export type CreateOrderMutationResult = Apollo.MutationResult<CreateOrderMutation>;
 export type CreateOrderMutationOptions = Apollo.BaseMutationOptions<CreateOrderMutation, CreateOrderMutationVariables>;
+export const GenerateSignedUrlDocument = gql`
+    mutation generateSignedUrl($input: CreateUploadInput!) {
+  generateSignedUrl(input: $input) {
+    ...SignedUrlInfo
+  }
+}
+    ${SignedUrlInfoFragmentDoc}`;
+export type GenerateSignedUrlMutationFn = Apollo.MutationFunction<GenerateSignedUrlMutation, GenerateSignedUrlMutationVariables>;
+
+/**
+ * __useGenerateSignedUrlMutation__
+ *
+ * To run a mutation, you first call `useGenerateSignedUrlMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useGenerateSignedUrlMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [generateSignedUrlMutation, { data, loading, error }] = useGenerateSignedUrlMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useGenerateSignedUrlMutation(baseOptions?: Apollo.MutationHookOptions<GenerateSignedUrlMutation, GenerateSignedUrlMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<GenerateSignedUrlMutation, GenerateSignedUrlMutationVariables>(GenerateSignedUrlDocument, options);
+      }
+export type GenerateSignedUrlMutationHookResult = ReturnType<typeof useGenerateSignedUrlMutation>;
+export type GenerateSignedUrlMutationResult = Apollo.MutationResult<GenerateSignedUrlMutation>;
+export type GenerateSignedUrlMutationOptions = Apollo.BaseMutationOptions<GenerateSignedUrlMutation, GenerateSignedUrlMutationVariables>;

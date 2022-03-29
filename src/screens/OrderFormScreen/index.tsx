@@ -40,7 +40,9 @@ const OrderFormScreen = () => {
     if (cart.length === 0) return;
     calculateTotal({
       variables: {
-        input: cart,
+        input: {
+          orders: cart,
+        },
       },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -61,7 +63,11 @@ const OrderFormScreen = () => {
     const foundItem = findItemFromCart(item.code);
     if (!foundItem.found) {
       const currentCart = [...cart];
-      const newItem = { itemCode: item.code, quantity: 1 };
+      const newItem = {
+        itemCode: item.code,
+        quantity: 1,
+        unitPrice: item.price,
+      };
       setCart([...currentCart, newItem]);
       return;
     }
@@ -88,7 +94,9 @@ const OrderFormScreen = () => {
   const handleSubmit = () => {
     createOrder({
       variables: {
-        input: cart,
+        input: {
+          orders: cart,
+        },
       },
     });
   };
