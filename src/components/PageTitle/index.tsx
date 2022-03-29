@@ -1,15 +1,14 @@
 import cx from "classnames";
 import { Props } from "./props";
-import { Wrapper } from "./styles";
 
 const PageTitle: React.FC<Props> = (props) => {
   const { title, className, subtitle } = props;
 
   return (
-    <Wrapper className={cx(className)}>
-      <h2 className="title">{title}</h2>
-      {subtitle && <h4 className="subtitle">{subtitle}</h4>}
-    </Wrapper>
+    <div className={cx("text-center", className)}>
+      <h2 className="mb-1 font-bold">{title}</h2>
+      {subtitle && <h4 className="mt-0 mb-1 font-normal">{subtitle}</h4>}
+    </div>
   );
 };
 
