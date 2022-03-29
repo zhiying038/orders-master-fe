@@ -1,10 +1,11 @@
+import Layout from "../../components/Layout";
 import ViewOrdersScreen from "../../screens/ViewOrdersScreen";
 
 const ViewOrders = () => {
   return (
-    <div style={{ minHeight: "100vh", width: "100%" }}>
+    <Layout>
       <ViewOrdersScreen />
-    </div>
+    </Layout>
   );
 };
 
