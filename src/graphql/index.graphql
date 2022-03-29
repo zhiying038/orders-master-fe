@@ -11,8 +11,8 @@ fragment ItemInfo on Item {
   }
 }
 
-query getItems {
-  getItems {
+query getItems($searchText: String) {
+  getItems(searchText: $searchText) {
     ...ItemInfo
   }
 }

@@ -161,6 +161,11 @@ export type QueryCalculateTotalPriceArgs = {
 };
 
 
+export type QueryGetItemsArgs = {
+  searchText?: InputMaybe<Scalars['String']>;
+};
+
+
 export type QueryGetOrderByIdArgs = {
   id: Scalars['Int'];
 };
@@ -195,7 +200,9 @@ export enum UploadPurpose {
 
 export type ItemInfoFragment = { __typename?: 'Item', code: string, name: string, price: number, currency: string, images?: Array<{ __typename?: 'ItemImage', id: string, link: string, alt?: string | null }> | null };
 
-export type GetItemsQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetItemsQueryVariables = Exact<{
+  searchText?: InputMaybe<Scalars['String']>;
+}>;
 
 
 export type GetItemsQuery = { __typename?: 'Query', getItems: Array<{ __typename?: 'Item', code: string, name: string, price: number, currency: string, images?: Array<{ __typename?: 'ItemImage', id: string, link: string, alt?: string | null }> | null }> };
@@ -320,8 +327,8 @@ export const SignedUrlInfoFragmentDoc = gql`
 }
     `;
 export const GetItemsDocument = gql`
-    query getItems {
-  getItems {
+    query getItems($searchText: String) {
+  getItems(searchText: $searchText) {
     ...ItemInfo
   }
 }
@@ -339,6 +346,7 @@ export const GetItemsDocument = gql`
  * @example
  * const { data, loading, error } = useGetItemsQuery({
  *   variables: {
+ *      searchText: // value for 'searchText'
  *   },
  * });
  */

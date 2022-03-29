@@ -6,6 +6,7 @@ import DefaultItem from "../../assets/default-item.svg";
 import Button from "../../components/Button";
 import Modal from "../../components/Modal";
 import OrderItem from "../../components/OrderItem";
+import SearchBar from "../../components/SearchBar";
 import { useGetItemsQuery } from "../../graphql";
 import { useCart } from "../../hooks/useCart";
 
@@ -13,7 +14,8 @@ const MenuScreen = () => {
   const navigate = useNavigate();
 
   const { cartItems } = useCart();
-  const { data } = useGetItemsQuery();
+  const { data, refetch } = useGetItemsQuery();
+
   const [showItem, setShowItem] = useState<boolean>(false);
   const [itemSelected, setItemSelected] = useState<any>();
 
@@ -22,51 +24,61 @@ const MenuScreen = () => {
     return item;
   };
 
+  const handleFilterItem = (value: string) => {
+    refetch({
+      searchText: value,
+    });
+  };
+
   return (
     <div className="mt-4">
-      {map(data?.getItems, (item, index) => {
-        const foundItem = foundItemInCart(item?.code);
-        const foundClass = "border-2 border-primary rounded-lg";
+      <SearchBar onSearch={handleFilterItem} />
 
-        const firstImage = item?.images?.[0];
+      <div className="mt-4">
+        {map(data?.getItems, (item, index) => {
+          const foundItem = foundItemInCart(item?.code);
+          const foundClass = "border-2 border-primary rounded-lg";
 
-        return (
-          <div
-            className={`flex flex-row items-center p-2 ${
-              foundItem && foundClass
-            }`}
-            key={index}
-            onClick={() => {
-              setItemSelected({
-                ...item,
-                quantity: foundItem ? foundItem?.quantity : 0,
-              });
-              setShowItem(true);
-            }}
-          >
-            <img
-              style={{ width: "72px", height: "72px", minWidth: "80px" }}
-              src={firstImage?.link ?? DefaultItem}
-              alt={firstImage?.alt ?? item?.name}
-            />
+          const firstImage = item?.images?.[0];
 
-            <div className="flex-grow p-1">
-              <p className="font-bold text-md">{item?.name}</p>
+          return (
+            <div
+              className={`flex flex-row items-center p-2 ${
+                foundItem && foundClass
+              }`}
+              key={index}
+              onClick={() => {
+                setItemSelected({
+                  ...item,
+                  quantity: foundItem ? foundItem?.quantity : 0,
+                });
+                setShowItem(true);
+              }}
+            >
+              <img
+                style={{ width: "72px", height: "72px", minWidth: "80px" }}
+                src={firstImage?.link ?? DefaultItem}
+                alt={firstImage?.alt ?? item?.name}
+              />
 
-              <div className="flex flex-row items-center">
-                <p>
-                  {item?.currency}{" "}
-                  {parseFloat(item?.price?.toString()).toFixed(2)}
-                </p>
+              <div className="flex-grow p-1">
+                <p className="font-bold text-md">{item?.name}</p>
+
+                <div className="flex flex-row items-center">
+                  <p>
+                    {item?.currency}{" "}
+                    {parseFloat(item?.price?.toString()).toFixed(2)}
+                  </p>
+                </div>
               </div>
-            </div>
 
-            {foundItem && (
-              <p className="text-xl font-bold mr-2">x{foundItem?.quantity}</p>
-            )}
-          </div>
-        );
-      })}
+              {foundItem && (
+                <p className="text-xl font-bold mr-2">x{foundItem?.quantity}</p>
+              )}
+            </div>
+          );
+        })}
+      </div>
 
       <Button
         block
