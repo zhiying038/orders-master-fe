@@ -6,8 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
 import CustomDatepicker from "../../components/DatePicker";
 import Modal from "../../components/Modal";
-import OrderInfo from "../../components/OrderInfo";
-import OrderItem from "../../components/OrderItem";
+import { OrderInfo } from "../../components/Order";
 import {
   useCalculateTotalPriceLazyQuery,
   useCreateOrderMutation,
@@ -123,7 +122,7 @@ const CartScreen = () => {
       </Button>
 
       <div className="border-t mt-5 bottom-0">
-        <OrderInfo
+        <OrderInfo.Info
           content={[
             {
               label: "Number of Items:",
@@ -151,7 +150,7 @@ const CartScreen = () => {
       </div>
 
       <Modal isOpen={showItem}>
-        <OrderItem
+        <OrderInfo.Item
           item={itemSelected}
           onClose={() => setShowItem(false)}
           handleAdd={handleAdd}

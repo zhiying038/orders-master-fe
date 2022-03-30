@@ -1,4 +1,4 @@
-import { CartProps } from "../../hooks/useCart";
+import { CartProps } from "../../../hooks/useCart";
 
 export type Props = {
   item: CartProps | null;

@@ -6,7 +6,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import DefaultItem from "../../assets/default-item.svg";
-import Button from "../Button";
+import Button from "../../Button";
 import { Props } from "./props";
 
 const OrderItem: React.FC<Props> = (props) => {

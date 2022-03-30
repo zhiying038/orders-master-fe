@@ -1,10 +1,11 @@
+import cx from "classnames";
 import map from "lodash/map";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DefaultItem from "../../assets/default-item.svg";
 import Button from "../../components/Button";
 import Modal from "../../components/Modal";
-import OrderItem from "../../components/OrderItem";
+import OrderInfo from "../../components/Order";
 import SearchBar from "../../components/SearchBar";
 import { useGetItemsQuery } from "../../graphql";
 import { useCart } from "../../hooks/useCart";
@@ -38,15 +39,16 @@ const MenuScreen = () => {
       <div className="mt-4 flex-grow">
         {map(data?.getItems, (item, index) => {
           const foundItem = findItemFromCart(item?.code);
-          const foundClass = "border-2 border-primary rounded-lg";
-
           const firstImage = item?.images?.[0];
 
           return (
             <div
-              className={`flex flex-row items-center p-2 mb-4 cursor-pointer ${
-                foundItem && foundClass
-              }`}
+              className={cx(
+                `flex flex-row items-center p-2 mb-4 cursor-pointer shadow-md rounded-lg`,
+                {
+                  "border-2 border-primary": foundItem,
+                }
+              )}
               key={index}
               onClick={() => {
                 setItemSelected({
@@ -91,7 +93,7 @@ const MenuScreen = () => {
       </Button>
 
       <Modal isOpen={showItem}>
-        <OrderItem
+        <OrderInfo.Item
           item={itemSelected}
           onClose={() => setShowItem(false)}
           handleAdd={handleAdd}
