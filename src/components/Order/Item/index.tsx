@@ -1,13 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCirclePlus,
-  faCircleMinus,
-  faXmark,
-} from "@fortawesome/free-solid-svg-icons";
-import cx from "classnames";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import DefaultItem from "../../../assets/default-item.svg";
 import Button from "../../Button";
+import QuantityPicker from "../../QuantityPicker";
 import { Props } from "./props";
 
 const OrderItem: React.FC<Props> = (props) => {
@@ -57,21 +53,7 @@ const OrderItem: React.FC<Props> = (props) => {
           </div>
         )}
 
-        <div className="flex flex-row items-center justify-center p-8">
-          <FontAwesomeIcon
-            icon={faCircleMinus}
-            className={cx("text-primary cursor-pointer h-7 w-7 p-2", {
-              "opacity-60 cursor-not-allowed": quantity === 1,
-            })}
-            onClick={() => setQuantity(quantity === 1 ? 1 : quantity - 1)}
-          />
-          <span className="px-3 text-xl font-bold">{quantity}</span>
-          <FontAwesomeIcon
-            icon={faCirclePlus}
-            className="text-primary cursor-pointer h-7 w-7 p-2"
-            onClick={() => setQuantity(quantity + 1)}
-          />
-        </div>
+        <QuantityPicker quantity={quantity} setQuantity={setQuantity} />
       </div>
 
       <div className="p-4 bg-black">
