@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import map from "lodash/map";
-import toString from "lodash/toString";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
@@ -33,9 +32,9 @@ const CartScreen = () => {
     useCalculateTotalPriceLazyQuery();
 
   const [createOrder] = useCreateOrderMutation({
-    onCompleted: () => {
-      alert("Successfully created order");
+    onCompleted: (data) => {
       deleteCart();
+      navigate(`/checkout/${data?.createOrder?.id}`);
     },
     onError: () => {
       alert("Failed to create order");
@@ -111,7 +110,7 @@ const CartScreen = () => {
 
               <p>
                 {e?.currency}{" "}
-                {`${parseFloat(toString(e?.price * e?.quantity)).toFixed(2)}`}
+                {`${parseFloat(String(e?.price * e?.quantity)).toFixed(2)}`}
               </p>
             </div>
           );
@@ -133,7 +132,7 @@ const CartScreen = () => {
             {
               label: "Total Amount:",
               value: `${price?.currency ?? "MYR"} ${parseFloat(
-                toString(price?.price ?? "0")
+                String(price?.price ?? "0")
               ).toFixed(2)}`,
             },
           ]}

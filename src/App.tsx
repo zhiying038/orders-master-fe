@@ -5,6 +5,7 @@ import Landing from "./pages/Landing";
 import Menu from "./pages/Menu";
 import Cart from "./pages/Cart";
 import ViewOrders from "./pages/ViewOrders";
+import CheckoutSuccess from "./pages/CheckoutSuccess";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/menu" element={<Menu />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/orders" element={<ViewOrders />} />
+          <Route path="/checkout/:id" element={<CheckoutSuccess />} />
         </Routes>
       </BrowserRouter>
     </ApolloProvider>
