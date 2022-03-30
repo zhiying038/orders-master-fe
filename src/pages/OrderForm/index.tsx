@@ -7,7 +7,7 @@ const OrderForm = () => {
   const navigate = useNavigate();
 
   return (
-    <Layout>
+    <Layout className="min-h-screen flex flex-col">
       <PageTitle
         title="Place Order"
         enableBack

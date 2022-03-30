@@ -31,10 +31,10 @@ const MenuScreen = () => {
   };
 
   return (
-    <div className="mt-4">
-      <SearchBar onSearch={handleFilterItem} />
+    <>
+      <SearchBar onSearch={handleFilterItem} className="w-full" />
 
-      <div className="mt-4">
+      <div className="mt-4 flex-grow">
         {map(data?.getItems, (item, index) => {
           const foundItem = findItemFromCart(item?.code);
           const foundClass = "border-2 border-primary rounded-lg";
@@ -97,7 +97,7 @@ const MenuScreen = () => {
           isSelected={findItemFromCart(itemSelected?.code)}
         />
       </Modal>
-    </div>
+    </>
   );
 };
 

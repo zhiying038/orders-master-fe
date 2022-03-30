@@ -4,7 +4,7 @@ import MenuScreen from "../../screens/MenuScreen";
 
 const Menu = () => {
   return (
-    <Layout>
+    <Layout className="min-h-screen flex flex-col">
       <PageTitle title="Menu" />
 
       <MenuScreen />

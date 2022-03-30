@@ -70,7 +70,7 @@ const OrderFormScreen = () => {
   };
 
   return (
-    <div>
+    <>
       <div className="flex flex-col mt-4">
         <div>
           <p className="font-bold">Order ID: {refNumber}</p>
@@ -85,7 +85,7 @@ const OrderFormScreen = () => {
         </div>
       </div>
 
-      <div className="border-t mt-5">
+      <div className="border-t mt-5 flex-grow">
         {map(cartItems, (e, index) => {
           return (
             <div className="flex flex-col mt-3" key={index}>
@@ -157,7 +157,7 @@ const OrderFormScreen = () => {
           isSelected={findItemFromCart(itemSelected?.code)}
         />
       </Modal>
-    </div>
+    </>
   );
 };
 

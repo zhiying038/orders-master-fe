@@ -1,10 +1,16 @@
+import cx from "classnames";
 import { Props } from "./props";
 
 const SearchBar: React.FC<Props> = (props) => {
-  const { onSearch } = props;
+  const { onSearch, className } = props;
 
   return (
-    <div className="pt-2 relative mx-auto text-gray-600 flex flex-row items-center">
+    <div
+      className={cx(
+        "pt-2 relative mx-auto text-gray-600 flex flex-row items-center",
+        className
+      )}
+    >
       <input
         className="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none w-full flex-grow"
         name="search"
