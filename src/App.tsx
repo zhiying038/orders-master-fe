@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { client } from "./config/apollo.config";
 import Landing from "./pages/Landing";
 import Menu from "./pages/Menu";
-import OrderForm from "./pages/OrderForm";
+import Cart from "./pages/Cart";
 import ViewOrders from "./pages/ViewOrders";
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/menu" element={<Menu />} />
-          <Route path="/cart" element={<OrderForm />} />
+          <Route path="/cart" element={<Cart />} />
           <Route path="/orders" element={<ViewOrders />} />
         </Routes>
       </BrowserRouter>

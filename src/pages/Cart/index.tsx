@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import Layout from "../../components/Layout";
 import PageTitle from "../../components/PageTitle";
-import OrderFormScreen from "../../screens/OrderFormScreen";
+import CartScreen from "../../screens/CartScreen";
 
-const OrderForm = () => {
+const Cart = () => {
   const navigate = useNavigate();
 
   return (
@@ -13,9 +13,9 @@ const OrderForm = () => {
         enableBack
         onActionBack={() => navigate("/")}
       />
-      <OrderFormScreen />
+      <CartScreen />
     </Layout>
   );
 };
 
-export default OrderForm;
+export default Cart;

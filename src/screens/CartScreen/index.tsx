@@ -17,7 +17,7 @@ import {
 import { useCart } from "../../hooks/useCart";
 import { formatToPayload } from "./helpers";
 
-const OrderFormScreen = () => {
+const CartScreen = () => {
   const navigate = useNavigate();
 
   // ===== STATES & HOOKS
@@ -157,4 +157,4 @@ const OrderFormScreen = () => {
   );
 };
 
-export default OrderFormScreen;
+export default CartScreen;
