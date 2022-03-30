@@ -48,6 +48,7 @@ fragment OrderInfo on Order {
   totalPrice
   createdAt
   status
+  placedAt
   orderDetails {
     ...OrderDetailInfo
   }

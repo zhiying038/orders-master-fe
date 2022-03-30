@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import map from "lodash/map";
 import { useEffect } from "react";
 import OrderInfo from "..";
@@ -27,7 +28,9 @@ const OrderDetails: React.FC<Props> = (props) => {
           <p className="font-bold">Order ID: {order?.referenceNumber}</p>
         </div>
         <div className="flex items-center mt-2">
-          <p className="font-bold">Date: {order?.createdAt}</p>
+          <p className="font-bold">
+            Date: {dayjs(order?.placedAt).format("DD-MM-YYYY")}
+          </p>
         </div>
       </div>
 
