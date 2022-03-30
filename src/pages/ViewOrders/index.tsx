@@ -7,7 +7,7 @@ const ViewOrders = () => {
   const navigate = useNavigate();
 
   return (
-    <Layout>
+    <Layout className="min-h-screen flex flex-col">
       <PageTitle
         title="All Orders"
         enableBack

@@ -2,11 +2,26 @@ import styled from "styled-components";
 
 export const Wrapper = styled.div`
   .react-select__control {
-    width: 50%;
+    min-width: 0px;
+
+    &.react-select__control--is-focused {
+      border-color: #facc15;
+      box-shadow: 0 0 0 1px #facc15;
+    }
   }
 
   .react-select__menu {
-    width: 50%;
+    min-width: 0px;
+
+    .react-select__menu-list {
+      .react-select__option {
+        background-color: transparent;
+      }
+
+      .react-select__option--is-selected {
+        background-color: #facc15;
+      }
+    }
   }
 
   table {
