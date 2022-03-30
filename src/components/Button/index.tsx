@@ -11,8 +11,9 @@ const Button: React.FC<Props> = (props) => {
     round,
     size,
     block,
-    center,
+    center = true,
     primary,
+    link,
   } = props;
 
   return (
@@ -29,6 +30,7 @@ const Button: React.FC<Props> = (props) => {
             "flex-auto": block,
             "items-center": center,
             "bg-primary": primary,
+            "text-primary h-0": link,
           },
           buttonClassName
         )}
@@ -44,7 +46,6 @@ const Button: React.FC<Props> = (props) => {
 Button.defaultProps = {
   center: true,
   size: "large",
-  primary: true,
 };
 
 export default Button;

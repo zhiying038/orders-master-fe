@@ -8,4 +8,5 @@ export type Props = {
   primary?: boolean;
   center?: boolean;
   size?: "regular" | "large" | "small";
+  link?: boolean;
 };

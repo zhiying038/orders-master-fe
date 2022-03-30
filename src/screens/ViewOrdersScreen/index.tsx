@@ -99,7 +99,11 @@ const ViewOrdersScreen = () => {
           >
             Reset
           </Button>
-          <Button onClick={() => handleFilter(filterParams)} size="small">
+          <Button
+            onClick={() => handleFilter(filterParams)}
+            size="small"
+            primary
+          >
             Submit
           </Button>
         </div>

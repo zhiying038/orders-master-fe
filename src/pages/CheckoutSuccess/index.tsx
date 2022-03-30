@@ -23,6 +23,7 @@ const CheckoutSuccess = () => {
 
           <Button
             block
+            primary
             onClick={() => navigate("/")}
             size="large"
             className="mt-6"

@@ -85,6 +85,7 @@ const MenuScreen = () => {
 
       <Button
         block
+        primary
         size="large"
         className="mt-2"
         onClick={() => navigate("/cart")}

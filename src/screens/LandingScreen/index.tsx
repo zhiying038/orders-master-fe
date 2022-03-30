@@ -6,11 +6,21 @@ const LandingScreen = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <Button block onClick={() => navigate("/cart")} className="w-3/4 mb-5">
+      <Button
+        block
+        onClick={() => navigate("/cart")}
+        className="w-3/4 mb-5"
+        primary
+      >
         Place Order
       </Button>
 
-      <Button block onClick={() => navigate("/orders")} className="w-3/4">
+      <Button
+        block
+        onClick={() => navigate("/orders")}
+        className="w-3/4"
+        primary
+      >
         View Orders
       </Button>
     </div>

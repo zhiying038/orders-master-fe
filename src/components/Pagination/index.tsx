@@ -8,11 +8,11 @@ const Pagination: React.FC<Props> = (props) => {
 
   return (
     <div className={cx("grid grid-cols-2 gap-2", className)}>
-      <Button onClick={onClickPrev} disabled={disabledPrev} block>
+      <Button onClick={onClickPrev} disabled={disabledPrev} block primary>
         Previous
       </Button>
 
-      <Button onClick={onClickNext} disabled={disabledNext} block>
+      <Button onClick={onClickNext} disabled={disabledNext} primary block>
         Next
       </Button>
     </div>

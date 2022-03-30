@@ -97,14 +97,15 @@ const CartScreen = () => {
                 <p className="font-bold">
                   {e?.name} ( x{e?.quantity} )
                 </p>
-                <button
+                <Button
+                  link
                   onClick={() => {
                     setItemSelected(e);
                     setShowItem(true);
                   }}
                 >
                   Edit
-                </button>
+                </Button>
               </div>
 
               <p>
@@ -116,7 +117,12 @@ const CartScreen = () => {
         })}
       </div>
 
-      <Button onClick={() => navigate("/menu")} size="regular" className="mt-4">
+      <Button
+        primary
+        onClick={() => navigate("/menu")}
+        size="regular"
+        className="mt-4"
+      >
         <FontAwesomeIcon icon={faPlus} className="text-sm" />
         <span className="ml-1">Add Item</span>
       </Button>
@@ -140,6 +146,7 @@ const CartScreen = () => {
 
         <Button
           block
+          primary
           size="large"
           className="mt-6"
           onClick={handleSubmit}
