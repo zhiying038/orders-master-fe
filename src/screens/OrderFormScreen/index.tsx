@@ -110,16 +110,12 @@ const OrderFormScreen = () => {
             </div>
           );
         })}
-
-        <Button
-          onClick={() => navigate("/menu")}
-          size="regular"
-          className="mt-4"
-        >
-          <FontAwesomeIcon icon={faPlus} className="text-sm" />
-          <span className="ml-1">Add Item</span>
-        </Button>
       </div>
+
+      <Button onClick={() => navigate("/menu")} size="regular" className="mt-4">
+        <FontAwesomeIcon icon={faPlus} className="text-sm" />
+        <span className="ml-1">Add Item</span>
+      </Button>
 
       <div className="border-t mt-5 bottom-0">
         <OrderInfo
