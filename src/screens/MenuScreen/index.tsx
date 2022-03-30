@@ -53,7 +53,7 @@ const MenuScreen = () => {
               onClick={() => {
                 setItemSelected({
                   ...item,
-                  quantity: foundItem ? foundItem?.quantity : 0,
+                  quantity: foundItem ? foundItem?.quantity : 1,
                 });
                 setShowItem(true);
               }}

@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { useTable } from "react-table";
 import Button from "../../components/Button";
@@ -8,6 +9,8 @@ import { getColumns } from "./settings";
 import { Wrapper } from "./styles";
 
 const ViewOrdersScreen = () => {
+  const navigate = useNavigate();
+
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentSize, setCurrentSize] = useState<number>(10);
   const [filterParams, setFilterParams] = useState<FilterOrderInput>({});
@@ -31,6 +34,7 @@ const ViewOrdersScreen = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, currentSize]);
 
+  // ===== EVENTS
   const handleFilter = (inFilter) => {
     refetch({
       options: {
@@ -46,6 +50,7 @@ const ViewOrdersScreen = () => {
     handleFilter({});
   };
 
+  // ===== VARIABLES
   const sizeOptions = [
     { value: 10, label: "Show 10" },
     { value: 25, label: "Show 25" },
@@ -62,6 +67,7 @@ const ViewOrdersScreen = () => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data: items });
 
+  // ===== VIEWS
   return (
     <>
       <Wrapper className="flex-grow">
@@ -126,7 +132,11 @@ const ViewOrdersScreen = () => {
             {rows.map((row, index) => {
               prepareRow(row);
               return (
-                <tr {...row.getRowProps()} key={index}>
+                <tr
+                  {...row.getRowProps()}
+                  key={index}
+                  onClick={() => navigate(`/orders/${row.original.id}`)}
+                >
                   {row.cells.map((cell) => (
                     <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
                   ))}
