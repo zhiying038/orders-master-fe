@@ -4,6 +4,7 @@
 fragment ItemInfo on Item {
   code
   name
+  description
   price
   currency
   images {
@@ -46,6 +47,7 @@ fragment OrderInfo on Order {
   referenceNumber
   totalPrice
   createdAt
+  status
   orderDetails {
     ...OrderDetailInfo
   }

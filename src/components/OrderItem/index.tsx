@@ -4,11 +4,10 @@ import {
   faCircleMinus,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
 import DefaultItem from "../../assets/default-item.svg";
 import Button from "../Button";
-import Divider from "../Divider";
 import { Props } from "./props";
-import { useState } from "react";
 
 const OrderItem: React.FC<Props> = (props) => {
   const { item, onClose, handleAdd, isSelected } = props;
@@ -33,15 +32,17 @@ const OrderItem: React.FC<Props> = (props) => {
           alt={firstImage?.alt ?? item?.name}
         />
 
-        <Divider />
+        <div className="border-t mt-4">
+          <h6 className="font-bold text-lg mt-2">
+            {item?.name} ({item?.code})
+          </h6>
 
-        <div>
-          <h6 className="font-bold text-lg">{item?.name}</h6>
-          <p className="text-sm">{item?.code}</p>
+          {item?.description && (
+            <p className="text-gray-400">{item?.description}</p>
+          )}
 
           <p className="text-md mt-5">
-            {item?.currency}{" "}
-            {parseFloat(item?.price.toString() ?? "0").toFixed(2)}
+            {item?.currency} {parseFloat(String(item?.price ?? 0)).toFixed(2)}
           </p>
         </div>
       </div>

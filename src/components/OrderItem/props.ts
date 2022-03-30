@@ -1,5 +1,7 @@
+import { CartProps } from "../../hooks/useCart";
+
 export type Props = {
-  item?: any;
+  item: CartProps | null;
   onClose: () => void;
   handleAdd: (values: any) => void;
   isSelected?: boolean;
