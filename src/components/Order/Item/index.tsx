@@ -5,7 +5,7 @@ import {
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import DefaultItem from "../../assets/default-item.svg";
+import DefaultItem from "../../../assets/default-item.svg";
 import Button from "../../Button";
 import { Props } from "./props";
 
