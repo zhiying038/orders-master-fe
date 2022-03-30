@@ -12,6 +12,7 @@ const ViewOrders = () => {
         title="All Orders"
         enableBack
         onActionBack={() => navigate("/")}
+        className="p-3"
       />
 
       <ViewOrdersScreen />

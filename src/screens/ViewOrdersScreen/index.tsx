@@ -1,3 +1,4 @@
+import cx from "classnames";
 import { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
@@ -70,7 +71,7 @@ const ViewOrdersScreen = () => {
   // ===== VIEWS
   return (
     <>
-      <Wrapper className="flex-grow">
+      <Wrapper className="flex-grow px-3">
         <div className="mt-3 flex items-center justify-end">
           <Select
             options={sizeOptions}
@@ -89,8 +90,8 @@ const ViewOrdersScreen = () => {
               type="text"
               id="referenceNumber"
               name="referenceNumber"
-              placeholder="Ref No."
-              className="border-2 p-2"
+              placeholder="Search Ref No."
+              className="input input-bordered input-md"
               value={filterParams?.referenceNumber ?? ""}
               onChange={(e) =>
                 setFilterParams({ referenceNumber: e.target.value })
@@ -132,11 +133,7 @@ const ViewOrdersScreen = () => {
             {rows.map((row, index) => {
               prepareRow(row);
               return (
-                <tr
-                  {...row.getRowProps()}
-                  key={index}
-                  onClick={() => navigate(`/orders/${row.original.id}`)}
-                >
+                <tr {...row.getRowProps()} key={index}>
                   {row.cells.map((cell) => (
                     <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
                   ))}
@@ -147,13 +144,14 @@ const ViewOrdersScreen = () => {
         </table>
       </Wrapper>
 
-      <Pagination
-        className="mt-4"
-        disabledNext={noNextPage}
-        disabledPrev={noPrevPage}
-        onClickNext={() => setCurrentPage(currentPage + 1)}
-        onClickPrev={() => setCurrentPage(currentPage - 1)}
-      />
+      <div className="bg-black p-3">
+        <Pagination
+          disabledNext={noNextPage}
+          disabledPrev={noPrevPage}
+          onClickNext={() => setCurrentPage(currentPage + 1)}
+          onClickPrev={() => setCurrentPage(currentPage - 1)}
+        />
+      </div>
     </>
   );
 };
