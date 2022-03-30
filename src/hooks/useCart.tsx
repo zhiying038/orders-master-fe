@@ -5,25 +5,28 @@ import reduce from "lodash/reduce";
 import set from "lodash/set";
 import { useEffect, useState } from "react";
 import { useLocalStorage } from "react-use";
+import { ItemInfoFragment } from "../graphql";
+
+export type CartProps = ItemInfoFragment & { quantity: number };
 
 export const useCart = () => {
-  const [cartItems, setCartItems] = useState<any[]>([]);
+  const [cartItems, setCartItems] = useState<CartProps[]>([]);
   const [numItems, setNumItems] = useState<number>(0);
   const [cart, setCart, removeCart] = useLocalStorage("cart", "{}");
 
-  const setOnCart = (items: any[]): void => {
+  const setOnCart = (items: CartProps[]): void => {
     setCart(JSON.stringify({ items }));
   };
 
   const deleteCart = () => removeCart();
 
-  const addItemToCart = (item: any) => {
+  const addItemToCart = (item: CartProps) => {
     const itemCode = item?.code;
     const foundIndex = findIndex(cartItems, (e) => {
       return e.code === itemCode;
     });
 
-    let currentItems: any[] = [];
+    let currentItems: CartProps[] = [];
     if (foundIndex === -1) {
       currentItems = [...cartItems, item];
     } else if (item?.quantity === 0) {
@@ -35,11 +38,12 @@ export const useCart = () => {
     setOnCart(currentItems);
   };
 
-  const findItemFromCart = (code: string) => {
-    return find(cartItems ?? [], (e) => e.code === code);
+  const findItemFromCart = (code?: string) => {
+    if (!code) return;
+    return find(cartItems, (e) => e.code === code);
   };
 
-  const getCartFromLocalStorage = (): any[] => {
+  const getCartFromLocalStorage = (): CartProps[] => {
     const storage = JSON.parse(cart ?? "{}");
     return storage?.items;
   };
@@ -59,5 +63,6 @@ export const useCart = () => {
     cartItems,
     itemQuantity: numItems,
     findItemFromCart,
+    deleteCart,
   };
 };

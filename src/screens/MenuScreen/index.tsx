@@ -8,6 +8,7 @@ import OrderItem from "../../components/OrderItem";
 import SearchBar from "../../components/SearchBar";
 import { useGetItemsQuery } from "../../graphql";
 import { useCart } from "../../hooks/useCart";
+import { CartProps } from "./props";
 
 const MenuScreen = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const MenuScreen = () => {
   const { data, refetch } = useGetItemsQuery();
 
   const [showItem, setShowItem] = useState<boolean>(false);
-  const [itemSelected, setItemSelected] = useState<any>();
+  const [itemSelected, setItemSelected] = useState<CartProps | null>(null);
 
   const handleFilterItem = (value: string) => {
     refetch({
@@ -94,7 +95,7 @@ const MenuScreen = () => {
           item={itemSelected}
           onClose={() => setShowItem(false)}
           handleAdd={handleAdd}
-          isSelected={findItemFromCart(itemSelected?.code)}
+          isSelected={!!findItemFromCart(itemSelected?.code)}
         />
       </Modal>
     </>

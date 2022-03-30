@@ -3,14 +3,14 @@ import Select from "react-select";
 import { useTable } from "react-table";
 import Button from "../../components/Button";
 import Pagination from "../../components/Pagination";
-import { useGetPaginatedOrdersQuery } from "../../graphql";
+import { FilterOrderInput, useGetPaginatedOrdersQuery } from "../../graphql";
 import { getColumns } from "./settings";
 import { Wrapper } from "./styles";
 
 const ViewOrdersScreen = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentSize, setCurrentSize] = useState<number>(10);
-  const [filterParams, setFilterParams] = useState<any>({});
+  const [filterParams, setFilterParams] = useState<FilterOrderInput>({});
 
   const { data, refetch } = useGetPaginatedOrdersQuery({
     variables: {

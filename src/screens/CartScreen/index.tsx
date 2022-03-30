@@ -14,15 +14,20 @@ import {
   useCreateOrderMutation,
   useGetNextReferenceNumberQuery,
 } from "../../graphql";
-import { useCart } from "../../hooks/useCart";
+import { CartProps, useCart } from "../../hooks/useCart";
 import { formatToPayload } from "./helpers";
 
 const CartScreen = () => {
   const navigate = useNavigate();
 
   // ===== STATES & HOOKS
-  const { cartItems, itemQuantity, addItemToCart, findItemFromCart } =
-    useCart();
+  const {
+    cartItems,
+    itemQuantity,
+    addItemToCart,
+    findItemFromCart,
+    deleteCart,
+  } = useCart();
   const { data: nextRefData } = useGetNextReferenceNumberQuery();
   const [calculateTotal, { data: priceData }] =
     useCalculateTotalPriceLazyQuery();
@@ -30,6 +35,7 @@ const CartScreen = () => {
   const [createOrder] = useCreateOrderMutation({
     onCompleted: () => {
       alert("Successfully created order");
+      deleteCart();
     },
     onError: () => {
       alert("Failed to create order");
@@ -38,7 +44,7 @@ const CartScreen = () => {
 
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [showItem, setShowItem] = useState<boolean>(false);
-  const [itemSelected, setItemSelected] = useState<any>();
+  const [itemSelected, setItemSelected] = useState<CartProps | null>(null);
 
   // ===== EFFECTS
   useEffect(() => {
@@ -66,7 +72,7 @@ const CartScreen = () => {
   const handleAdd = (item) => {
     addItemToCart(item);
     setShowItem(false);
-    setItemSelected(undefined);
+    setItemSelected(null);
   };
 
   return (
@@ -150,7 +156,7 @@ const CartScreen = () => {
           item={itemSelected}
           onClose={() => setShowItem(false)}
           handleAdd={handleAdd}
-          isSelected={findItemFromCart(itemSelected?.code)}
+          isSelected={!!findItemFromCart(itemSelected?.code)}
         />
       </Modal>
     </>
