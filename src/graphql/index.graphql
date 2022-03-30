@@ -72,7 +72,7 @@ query getPaginatedOrders(
   }
 }
 
-query getOrderById($id: Int!) {
+query getOrderById($id: String!) {
   getOrderById(id: $id) {
     ...OrderInfo
   }
@@ -101,6 +101,7 @@ mutation createOrder($input: PlaceOrderInput!) {
 fragment OrderDetailInfo on OrderDetail {
   id
   quantity
+  unitPrice
   item {
     ...ItemInfo
   }

@@ -133,7 +133,11 @@ const ViewOrdersScreen = () => {
             {rows.map((row, index) => {
               prepareRow(row);
               return (
-                <tr {...row.getRowProps()} key={index}>
+                <tr
+                  {...row.getRowProps()}
+                  key={index}
+                  onClick={() => navigate(`/orders/${row.original.id}`)}
+                >
                   {row.cells.map((cell) => (
                     <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
                   ))}

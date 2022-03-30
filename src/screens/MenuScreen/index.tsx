@@ -1,8 +1,6 @@
-import cx from "classnames";
 import map from "lodash/map";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import DefaultItem from "../../assets/default-item.svg";
 import Button from "../../components/Button";
 import Modal from "../../components/Modal";
 import OrderInfo from "../../components/Order";
@@ -39,18 +37,14 @@ const MenuScreen = () => {
       <div className="mt-4 flex-grow p-3">
         {map(data?.getItems, (item, index) => {
           const foundItem = findItemFromCart(item?.code);
-          const firstImage = item?.images?.[0];
+          const foundClass = "border-2 border-primary";
 
           return (
-            <div
-              className={cx(
-                `flex flex-row items-center p-2 mb-4 cursor-pointer shadow-md rounded-lg`,
-                {
-                  "border-2 border-primary": foundItem,
-                }
-              )}
+            <OrderInfo.Card
               key={index}
-              onClick={() => {
+              item={item}
+              className={foundItem && foundClass}
+              onClickItme={() => {
                 setItemSelected({
                   ...item,
                   quantity: foundItem ? foundItem?.quantity : 1,
@@ -58,27 +52,10 @@ const MenuScreen = () => {
                 setShowItem(true);
               }}
             >
-              <img
-                style={{ width: "72px", height: "72px", minWidth: "80px" }}
-                src={firstImage?.link ?? DefaultItem}
-                alt={firstImage?.alt ?? item?.name}
-              />
-
-              <div className="flex-grow p-1">
-                <p className="font-bold text-md">{item?.name}</p>
-
-                <div className="flex flex-row items-center">
-                  <p>
-                    {item?.currency}{" "}
-                    {parseFloat(item?.price?.toString()).toFixed(2)}
-                  </p>
-                </div>
-              </div>
-
               {foundItem && (
                 <p className="text-xl font-bold mr-2">x{foundItem?.quantity}</p>
               )}
-            </div>
+            </OrderInfo.Card>
           );
         })}
       </div>
