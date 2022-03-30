@@ -9,9 +9,9 @@ const Layout: React.FC<Props> = (props) => {
   return (
     <div
       className={cx(
-        "container min-h-full p-4 mx-auto",
+        "container min-h-full mx-auto border-2",
         {
-          "w-5/12": ["xl", "xxl"].includes(breakpoint),
+          "max-w-md": ["xl", "xxl"].includes(breakpoint),
           "max-w-7xl": ["md", "lg"].includes(breakpoint),
         },
         className

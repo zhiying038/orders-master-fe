@@ -14,7 +14,7 @@ const Modal: React.FC<Props> = (props) => {
           content: {
             marginLeft: "auto",
             marginRight: "auto",
-            maxWidth: "414px",
+            maxWidth: "448px",
             padding: 0,
             top: 0,
             left: 0,

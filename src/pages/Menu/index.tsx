@@ -12,6 +12,7 @@ const Menu = () => {
         title="Menu"
         enableBack
         onActionBack={() => navigate("/cart")}
+        className="p-3"
       />
       <MenuScreen />
     </Layout>

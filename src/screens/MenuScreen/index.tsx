@@ -34,9 +34,9 @@ const MenuScreen = () => {
 
   return (
     <>
-      <SearchBar onSearch={handleFilterItem} className="w-full" />
+      <SearchBar onSearch={handleFilterItem} className="w-full px-3" />
 
-      <div className="mt-4 flex-grow">
+      <div className="mt-4 flex-grow p-3">
         {map(data?.getItems, (item, index) => {
           const foundItem = findItemFromCart(item?.code);
           const firstImage = item?.images?.[0];
@@ -83,15 +83,18 @@ const MenuScreen = () => {
         })}
       </div>
 
-      <Button
-        block
-        primary
-        size="large"
-        className="mt-2"
-        onClick={() => navigate("/cart")}
-      >
-        Done
-      </Button>
+      <div className="p-3 bg-black">
+        <Button
+          block
+          primary
+          size="large"
+          className="mt-2"
+          onClick={() => navigate("/cart")}
+          buttonClassName="uppercase font-bold"
+        >
+          Done
+        </Button>
+      </div>
 
       <Modal isOpen={showItem}>
         <OrderInfo.Item

@@ -15,9 +15,9 @@ const OrderItem: React.FC<Props> = (props) => {
 
   return (
     <div className="flex flex-col h-full bg-gray-100">
-      <div className="flex-1">
+      <div className="flex-1 relative">
         <div
-          className="absolute rounded-full mt-2 ml-2 top-0 left-0 bg-gray-300"
+          className="absolute rounded-full m-2 top-0 left-0 bg-gray-300 inline-block"
           style={{ backgroundColor: "rgba(0,0,0,.3)" }}
         >
           <FontAwesomeIcon

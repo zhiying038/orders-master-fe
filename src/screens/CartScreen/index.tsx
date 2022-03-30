@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faBasketShopping, faPlus } from "@fortawesome/free-solid-svg-icons";
 import map from "lodash/map";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -75,7 +75,7 @@ const CartScreen = () => {
 
   return (
     <>
-      <div className="flex flex-col mt-4">
+      <div className="flex flex-col mt-4 p-3">
         <div>
           <p className="font-bold">Order ID: {refNumber}</p>
         </div>
@@ -89,14 +89,21 @@ const CartScreen = () => {
         </div>
       </div>
 
-      <div className="border-t mt-5 flex-grow">
+      <div className="border-t mt-5 flex-grow p-3">
         {map(cartItems, (e, index) => {
           return (
             <div className="flex flex-col mt-3" key={index}>
-              <div className="flex flex-row justify-between">
-                <p className="font-bold">
-                  {e?.name} ( x{e?.quantity} )
-                </p>
+              <div className="flex justify-between">
+                <div>
+                  <p className="font-bold">
+                    {e?.name} ( x{e?.quantity} )
+                  </p>
+                  <p>
+                    {e?.currency}{" "}
+                    {`${parseFloat(String(e?.price * e?.quantity)).toFixed(2)}`}
+                  </p>
+                </div>
+
                 <Button
                   link
                   onClick={() => {
@@ -107,11 +114,6 @@ const CartScreen = () => {
                   Edit
                 </Button>
               </div>
-
-              <p>
-                {e?.currency}{" "}
-                {`${parseFloat(String(e?.price * e?.quantity)).toFixed(2)}`}
-              </p>
             </div>
           );
         })}
@@ -121,36 +123,44 @@ const CartScreen = () => {
         primary
         onClick={() => navigate("/menu")}
         size="regular"
-        className="mt-4"
+        className="mt-4 mb-4 px-3"
       >
         <FontAwesomeIcon icon={faPlus} className="text-sm" />
         <span className="ml-1">Add Item</span>
       </Button>
 
-      <div className="border-t mt-5 bottom-0">
-        <OrderInfo.Info
-          content={[
-            {
-              label: "Number of Items:",
-              value: String(itemQuantity) ?? "0",
-            },
-            {
-              label: "Total Amount:",
-              value: `${price?.currency ?? "MYR"} ${parseFloat(
-                String(price?.price ?? "0")
-              ).toFixed(2)}`,
-            },
-          ]}
-          className="my-2"
-        />
+      <div className="p-5 flex items-center justify-between bg-black gap-4">
+        <div className="flex items-center justify-between">
+          <div className="relative inline-block">
+            <FontAwesomeIcon
+              icon={faBasketShopping}
+              className="text-white w-12 h-12 opacity-100"
+              style={{ transform: "rotate(-5deg)" }}
+            />
+            <span
+              className="absolute text-white px-2 bottom-0 inline-block rounded-full"
+              style={{
+                backgroundColor: "#31728d",
+                right: "-25%",
+              }}
+            >
+              {itemQuantity}
+            </span>
+          </div>
+
+          <p className="text-white font-bold ml-4">{`MYR ${parseFloat(
+            String(price?.price ?? 0)
+          ).toFixed(2)}`}</p>
+        </div>
 
         <Button
           block
           primary
           size="large"
-          className="mt-6"
           onClick={handleSubmit}
           disabled={cartItems.length === 0}
+          className="flex-grow"
+          buttonClassName="uppercase font-bold"
         >
           Checkout
         </Button>
