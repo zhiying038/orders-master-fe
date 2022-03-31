@@ -7,7 +7,7 @@ const Menu = () => {
   const navigate = useNavigate();
 
   return (
-    <Layout className="min-h-screen flex flex-col">
+    <Layout className="h-screen flex flex-col">
       <PageTitle
         title="Menu"
         enableBack

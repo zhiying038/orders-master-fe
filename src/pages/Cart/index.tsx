@@ -7,7 +7,7 @@ const Cart = () => {
   const navigate = useNavigate();
 
   return (
-    <Layout className="min-h-screen flex flex-col p-0">
+    <Layout className="h-screen flex flex-col p-0">
       <PageTitle
         title="Place Order"
         enableBack

@@ -34,7 +34,7 @@ const MenuScreen = () => {
     <>
       <SearchBar onSearch={handleFilterItem} className="w-full px-3" />
 
-      <div className="mt-4 flex-grow p-3">
+      <div className="mt-4 p-3 overflow-y-auto scroll-smooth">
         {map(data?.getItems, (item, index) => {
           const foundItem = findItemFromCart(item?.code);
           const foundClass = "border-2 border-primary";

@@ -89,7 +89,17 @@ const CartScreen = () => {
         </div>
       </div>
 
-      <div className="border-t mt-5 flex-grow p-3">
+      <Button
+        primary
+        onClick={() => navigate("/menu")}
+        size="regular"
+        className="mt-1 border-t px-3 pt-3 justify-end"
+      >
+        <FontAwesomeIcon icon={faPlus} className="text-sm" />
+        <span className="ml-1">Add Item</span>
+      </Button>
+
+      <div className="p-3 mt-2 overflow-y-auto scroll-smooth">
         {map(cartItems, (e, index) => {
           return (
             <div className="flex flex-col mt-3" key={index}>
@@ -118,16 +128,6 @@ const CartScreen = () => {
           );
         })}
       </div>
-
-      <Button
-        primary
-        onClick={() => navigate("/menu")}
-        size="regular"
-        className="mt-4 mb-4 px-3"
-      >
-        <FontAwesomeIcon icon={faPlus} className="text-sm" />
-        <span className="ml-1">Add Item</span>
-      </Button>
 
       <div className="p-5 flex items-center justify-between bg-black gap-4">
         <div className="flex items-center justify-between">
